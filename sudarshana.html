@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sudarshana Block | VCET Orbit</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #004e92, #000428);
+  color: #fff;
+  min-height: 100vh;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+h1 {
+  color: #ffdd57;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.floor-btns {
+  margin-bottom: 30px;
+}
+
+.floor-btns button {
+  background: #ffdd57;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.floor-btns button:hover {
+  background: #fff06e;
+}
+
+table {
+  width: 80%;
+  margin: 0 auto 40px;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  display: none; /* initially hidden */
+}
+
+th, td {
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+}
+
+th {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffdd57;
+  font-weight: 600;
+}
+
+td {
+  color: #fff;
+  font-weight: 100;
+}
+
+/* --- Marquee Style --- */
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-top: 30px;
+}
+
+.marquee img {
+  display: inline-block;
+  width: 250px;
+  height: 200px;
+  margin: 0 15px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid #ffdd57;
+  animation: scroll 25s linear infinite;
+}
+
+@keyframes scroll {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-700%); }
+}
+
+/* --- Back Button --- */
+.back-btn {
+  display: inline-block;
+  margin-top: 25px;
+  background: #ffdd57;
+  color: #000;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: #fff06e;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Sudarshana Block</h1>
+
+<div class="floor-btns">
+  <button onclick="showFloor('ground')">Ground Floor</button>
+  <button onclick="showFloor('first')">First Floor</button>
+  <button onclick="showFloor('second')">Second Floor</button>
+  
+</div>
+
+<table id="ground" class="floor-table">
+  <tr><th>Floor</th><th>Room Name</th><th>Room Number</th></tr>
+  <tr><td rowspan="15">Ground Floor</td><td>Priciple office</td><td>A 002 </td></tr>
+  <tr><td>Office</td><td>A 004 </td></tr>
+  <tr><td>Exam section</td><td>A 005 </td></tr>
+  <tr><td>Admission cell</td><td> A 006</td></tr>
+  <tr><td>Student welfare office</td><td> A 010</td></tr>
+  <tr><td>Admission and Placement</td><td> </td></tr>
+  <tr><td>Physics Lab</td><td>A 012 </td></tr>
+  <tr><td>Basic science Faculty room 1</td><td>A 016 </td></tr>
+  <tr><td>Xerox </td><td> A 017</td></tr>
+  <tr><td>Locker</td><td> </td></tr>
+  <tr><td>POP lab</td><td>A 018 </td></tr>
+  <tr><td>Industry Connect IOT lab</td><td></td></tr>
+  <tr><td>e-yantra Lab</td><td> A 024</td></tr>
+  <tr><td>Chemestry Lab</td><td> A 027</td></tr>
+  <tr><td>Basic science Faculty room 2</td><td>A 028</td></tr>
+</table>
+
+
+<table id="first" class="floor-table">
+  <tr><th>Floor</th><th>Room Name</th><th>Room Number</th></tr>
+  <tr><td rowspan="16">First Floor</td><td>Digital Electronic Lab</td><td>A 110</td></tr>
+  <tr><td>Project/Research Lab</td><td>A 111</td></tr>
+  <tr><td>Analog communication+LIC Lab <br>Advanced communication Lab</td><td>A 114</td></tr>
+  <tr><td>IOT Laboratory</td><td>A 118</td></tr>
+  <tr><td>CCN HDL Lab</td><td>A 120</td></tr>
+  <tr><td>DSP/Microcontroller Lab</td><td>A 121</td></tr>
+  <tr><td>VLSI Embedded Lab</td><td>A 122</td></tr>
+  <tr><td>CSE Faculty room 1</td><td>A 131</td></tr>
+  <tr><td>Master office/Analog &<br> Digital electronics/Microcontroller & Embedded system</td><td>A 133</td></tr>
+  <tr><td>Computer Network Laboratory</td><td></td></tr>
+  <tr><td>Mobile application development Laboratory</td><td>A 136</td></tr>
+  <tr><td>Parallel computing Laboratory</td><td>A 138</td></tr>
+  <tr><td>Web programming/DBMS Laboratory with Miniproject & Computer graphics</td><td>A 103</td></tr>
+  <tr><td>Object Oriented Programming with JAVA Laboratory<br>System Software Laboratory</td><td>A 105</td></tr>
+  <tr><td>DataStructure & Applications<br>Design & Analysis of Algorithms<br>Python Programming Laboratory</td><td>A 104</td></tr>
+  <tr><td>Artificial Intelligence & Machine Learning Laboratory<br>Project Work Phase-1/2</td><td>A 106</td></tr>
+  
+</table>
+
+
+<table id="second" class="floor-table">
+  <tr><th>Floor</th><th>Room Name</th><th>Room Number</th></tr>
+  <tr><td rowspan="5">Second Floor</td><td>HOD Department of Electronic & Communication </td><td>  </td></tr>
+  <tr><td>E&C Faculty room</td><td>A 222</td></tr>
+  <tr><td>HOD Department of Computer Science&Engineering</td><td>A 227</td></tr>
+  <tr><td>Shri Rama Sabhabhavana</td><td>E 109B</td></tr>
+  <tr><td>CSE Faculty room 2</td><td> </td></tr>
+</table>
+
+
+<div class="marquee">
+   <img src="su000.jpg" alt="">
+  <img src="su5.jpg" alt="">
+  <img src="su6.jpg" alt="">
+  <img src="su1.jpg" alt="">
+  <img src="su7.jpg" alt="">
+  <img src="su2.jpg" alt="">
+   <img src="su00.jpg" alt="">
+   <img src="su0.jpg" alt="">
+  <img src="su3.jpg" alt="">
+  <img src="su4.jpg" alt="">
+<img src="su8.jpg" alt="">
+</div>
+
+<a href="index.html" class="back-btn">← Back to Campus</a>
+
+<script>
+function showFloor(floorId) {
+  // hide all tables
+  document.querySelectorAll('.floor-table').forEach(tbl => tbl.style.display = 'none');
+  // show selected floor
+  document.getElementById(floorId).style.display = 'table';
+}
+
+
+
+function showFloor(floorId) {
+  const table = document.getElementById(floorId);
+
+  // If already visible, hide it
+  if (table.style.display === 'table') {
+    table.style.display = 'none';
+  } else {
+    // Hide all other tables
+    document.querySelectorAll('.floor-table').forEach(tbl => tbl.style.display = 'none');
+    // Show selected floor
+    table.style.display = 'table';
+  }
+}
+</script>
+
+
+
+</body>
+</html>

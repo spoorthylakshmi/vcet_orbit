@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sudarshana Block | VCET Orbit</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #004e92, #000428);
+  color: #fff;
+  min-height: 100vh;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+h1 {
+  color: #ffdd57;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.floor-btns {
+  margin-bottom: 30px;
+}
+
+.floor-btns button {
+  background: #ffdd57;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.floor-btns button:hover {
+  background: #fff06e;
+}
+
+table {
+  width: 80%;
+  margin: 0 auto 40px;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  display: none; /* initially hidden */
+}
+
+th, td {
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+}
+
+th {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffdd57;
+  font-weight: 600;
+}
+
+td {
+  color: #fff;
+  font-weight: 100;
+}
+
+/* --- Marquee Style --- */
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-top: 30px;
+}
+
+.marquee img {
+  display: inline-block;
+  width: 250px;
+  height: 200px;
+  margin: 0 15px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid #ffdd57;
+  animation: scroll 25s linear infinite;
+}
+
+@keyframes scroll {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-700%); }
+}
+
+/* --- Back Button --- */
+.back-btn {
+  display: inline-block;
+  margin-top: 25px;
+  background: #ffdd57;
+  color: #000;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: #fff06e;
+}
+</style>
+</head>
+
+<body>
+
+<h1>KRISHNACHETANA</h1>
+
+<div class="floor-btns">
+  <button onclick="showFloor('ground')">Ground Floor</button>
+  <button onclick="showFloor('first')">First Floor</button>
+  <button onclick="showFloor('second')">Second Floor</button>
+  <button onclick="showFloor('third')">Third Floor</button>
+  <button onclick="showFloor('fourth')">Fourth Floor</button>
+</div>
+
+<table id="ground" class="floor-table">
+  <tr><th>Floor</th><th>Room Name</th><th>Room Number</th></tr>
+  <tr><td rowspan="7">Ground Floor</td><td>Department Of Physical Education</td><td> </td></tr>
+  <tr><td>Sir M Vishweshwaraya Hall</td><td> </td></tr>
+  <tr><td>Dr Homi J Baba Hall</td><td> </td></tr>
+  <tr><td>Energy Conversion Engineering Lab</td><td> </td></tr>
+  <tr><td>Heat and Mass transfer laboratory</td><td> </td></tr>
+  <tr><td>Mechanical Material testing laboratory</td><td> </td></tr>
+  <tr><td>Fluid Mechanics and Hydraulics Machinery</td><td> </td></tr>
+</table>
+
+<table id="first" class="floor-table">
+  <tr><th>Floor</th><th>Room Name</th><th>Room Number</th></tr>
+  <tr><td rowspan="2">First Floor</td><td>Reading room</td><td>E 001</td></tr>
+  <tr><td>Library</td><td>E 006</td></tr>
+</table>
+
+<table id="second" class="floor-table">
+  <tr><th>Floor</th><th>Room Name</th><th>Room Number</th></tr>
+  <tr><td rowspan="5">Second Floor</td><td>HOD Department of Mechanical Engineering</td><td>E 103</td></tr>
+  <tr><td>HOD Department of AI & ML</td><td>E 106</td></tr>
+  <tr><td>ML lab</td><td>E 108</td></tr>
+  <tr><td>DS/DAA Lab</td><td>E 109A</td></tr>
+  <tr><td>OS/Python Lab</td><td>E 109B</td></tr>
+</table>
+
+<table id="third" class="floor-table">
+  <tr><th>Floor</th><th>Room Name</th><th>Room Number</th></tr>
+  <tr><td rowspan="5">Third Floor</td><td>HOD Department of CSE DataScience</td><td>E 206</td></tr>
+  <tr><td>ADE/MES Lab</td><td>E 208</td></tr>
+  <tr><td>CN/Project Lab</td><td>E 209</td></tr>
+  <tr><td>DBMS/DAA Lab</td><td>E 210</td></tr>
+  <tr><td>Faculty (AI,CD)</td><td>E 203</td></tr>
+</table>
+
+<table id="fourth" class="floor-table">
+  <tr><th>Floor</th><th>Room Name</th><th>Room Number</th></tr>
+  <tr><td>Fourth Floor</td><td>Fluid and machinery laboratory, Material testing Lab</td><td>EMEL029</td></tr>
+</table>
+
+<div class="marquee">
+  <img src="kc1.jpg" alt="">
+  <img src="libr1.jpg" alt="">
+  <img src="libr2.jpg" alt="">
+  <img src="locker.jpg" alt="">
+  <img src="book1.jpg" alt="">
+  <img src="book2.jpg" alt="">
+  <img src="book3.jpg" alt="">
+  <img src="DL.jpg" alt="">
+  <img src="libp.jpg" alt="">
+  <img src="newspaper.jpg" alt="">
+  <img src="np2.jpg" alt="">
+  
+</div>
+
+<a href="index.html" class="back-btn">← Back to Campus</a>
+
+<script>
+function showFloor(floorId) {
+  // hide all tables
+  document.querySelectorAll('.floor-table').forEach(tbl => tbl.style.display = 'none');
+  // show selected floor
+  document.getElementById(floorId).style.display = 'table';
+}
+
+
+
+function showFloor(floorId) {
+  const table = document.getElementById(floorId);
+
+  // If already visible, hide it
+  if (table.style.display === 'table') {
+    table.style.display = 'none';
+  } else {
+    // Hide all other tables
+    document.querySelectorAll('.floor-table').forEach(tbl => tbl.style.display = 'none');
+    // Show selected floor
+    table.style.display = 'table';
+  }
+}
+</script>
+
+
+
+</body>
+</html>

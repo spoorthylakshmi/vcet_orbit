@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VCET Orbit | Campus Helper</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #004080;
+      padding: 15px 30px;
+      flex-wrap: wrap;
+    }
+
+    .navbar .logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .navbar ul li a {
+      text-decoration: none;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    .navbar ul li a:hover,
+    .navbar ul li a.active {
+      background: #0066cc;
+    }
+
+    /* MAIN CONTENT */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: black;
+      margin-bottom: 40px;
+      font-size: 2.5rem;
+      font-weight: 600;
+    }
+
+    .blocks-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .block {
+      background: rgba(0, 0, 0, 0.03);
+      border: 2px solid rgba(0, 0, 0, 0.05);
+      border-radius: 16px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      padding: 25px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .block:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .block-btn {
+      background: #ffdd57;
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      width: 100%;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .block-btn:hover {
+      background: #fff06e;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      background: #004080;
+      color: white;
+      padding: 15px 0;
+    }
+
+    footer strong {
+      color: #ffd700;
+      position: relative;
+    }
+
+    footer strong::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0%;
+      height: 2px;
+      background: #ffd700;
+      animation: underlineSlide 2s infinite alternate;
+    }
+
+    @keyframes underlineSlide {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .navbar ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .blocks-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .block {
+        width: 90%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">VCET ORBIT</div>
+    <ul>
+      <li><a href="home.html">🏠️ Home</a></li>
+      <li><a href="about page.html">🌎️ About</a></li>
+      <li><a href="index.html" class="active">🏫️ Campus</a></li>
+      <li><a href="notice.html">📢️ Notice Board</a></li>
+      <li><a href="timetable.html">📑️ Time Table</a></li>
+      <li><a href="contact.html">📞️ Contact</a></li>
+      <li><a href="lost and found page.html">🔎️ Lost And Found</a></li>
+      <!-- <li><a href="#">💉️ Blood</a></li> -->
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <h1> Campus Tour</h1>
+    <p >
+Welcome to the <strong>VCET Campus Tour 🎓🏫</strong>!<br> Explore our vibrant campus from the comfort of your screen. 
+Get a sneak peek of our classrooms, labs, libraries, sports facilities, and student hubs. 
+Whether you’re a new student or just curious, this tour will give you a glimpse into life at VCET! 🌟
+</p>
+
+    <div class="blocks-container">
+      <div class="block">
+        <button class="block-btn" onclick="location.href='sudarshana.html'">SUDARSHANA BLOCK</button>
+      </div>
+
+      <div class="block">
+        <button class="block-btn" onclick="location.href='kcbloc.html'">KRISHNACHETANA BLOCK</button>
+      </div>
+
+      <div class="block">
+        <button class="block-btn" onclick="location.href='mcblock.html'">MADHUCHETANA BLOCK</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 VCET ORBIT | 👩‍💻️ Made for <strong>VCETians</strong>, by <strong>VCETians</strong></p>
+  </footer>
+
+</body>
+</html>
