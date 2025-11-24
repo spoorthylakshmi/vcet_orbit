@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+    /* Background with animated gradient */
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* centers horizontally */
+  height: 100vh;
+  width: 100%;               /* take full width */
+  background: linear-gradient(135deg, #9d9ea8, #b6afaf, #e3ebd8, #9dc1c1, #e3ebd8, #8591b3);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+/* Glass effect form */
+.login_form {
+  background: rgba(255, 255, 255, 0.15); /* transparent white */
+  backdrop-filter: blur(20px);           /* frosted glass blur */
+  -webkit-backdrop-filter: blur(50px);   /* Safari fix */
+  padding: 5rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  width: 350px;                          /* fixed width for center alignment */
+  max-width: 150%;                        /* responsive */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;                    /* center heading */
+}
+
+/* Heading */
+.login_form h1 {
+  font-size: 2em;
+  margin-bottom: 2.5rem;
+  color: #101010;
+}
+
+/* Input fields */
+.login_field {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.login_input-textbox {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 6px;
+  outline: none;
+  font-size: 1em;
+  background: rgba(255, 255, 255, 0.1); /* semi-transparent input */
+  color: black;
+}
+
+.login_input-textbox::placeholder {
+  color: black rgba(255,255,255,0.7);
+}
+
+/* Floating label */
+.login__label {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  padding: 0 5px;
+  color: #080808;
+  background: transparent;
+  transition: 0.2s ease all;
+  pointer-events: none;
+}
+
+.login_input-textbox:focus + .login__label,
+.login_input-textbox:not(:placeholder-shown) + .login__label {
+  top: -8px;
+  left: 8px;
+  font-size: 0.8em;
+  color: #00ff99;
+}
+
+/* Button */
+.login_btn {
+  width: 107%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #372381, #93a3f4);
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login_btn:hover {
+  background: linear-gradient(135deg, #372381, #13141a);
+}
+
+/* Account link */
+.login_account {
+  margin-top: 1rem;
+  font-size: 0.9em;
+  color: #fff;
+}
+
+.login_account a {
+  color: #00ff99;
+  text-decoration: none;
+}
+
+.login_account a:hover {
+  text-decoration: underline;
+}
+
+/* Animated gradient background */
+@keyframes gradientBG {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+  </style>
+
+</head>
+<body>
+  <div class="login">
+    <form class="login_form">
+      <h1>Login</h1>
+
+      <!-- Email field -->
+      <div class="login_field">
+        <input class="login_input-textbox" id="user-email" type="email" name="email" autocomplete="off" placeholder=" " required>
+        <label class="login__label" for="user-email">Email</label>
+      </div>
+
+      <!-- Password field -->
+      <div class="login_field">
+        <input class="login_input-textbox" id="user-password" type="password" name="password" autocomplete="off" placeholder=" " required>
+        <label class="login__label" for="user-password">Password</label>
+      </div>
+
+      <!-- Login button -->
+      <button type="submit" class="login_btn">Login</button>
+
+      <!-- Sign up link -->
+      <div class="login_account">
+        <span>Don't have an account?</span>
+        <a href="#">Sign up</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

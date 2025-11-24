@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Helper - Notice Board</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color:#f3f0f9;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #004080;
+      padding: 15px 30px;
+    }
+    .navbar .logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    .navbar ul li a {
+      text-decoration: none;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    .navbar ul li a:hover, .navbar ul li a.active {
+      background: #0066cc;
+    }
+
+    .notice-board {
+      padding: 40px;
+      text-align: center;
+    }
+    .notice-board h1 {
+      color: #004080;
+    }
+    .notice-board p {
+      margin-bottom: 30px;
+      font-size: 18px;
+      color: #555;
+    }
+
+    .notices {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .notice-card {
+      background: #f5fbf7;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .notice-card:hover {
+      transform: scale(1.03);
+    }
+    .notice-card h2 {
+      margin: 0 0 10px;
+      color: #222;
+    }
+    .notice-card p {
+      font-size: 15px;
+      color: #555;
+    }
+    .notice-card .date {
+      display: block;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    footer {
+      text-align: center;
+      background: #004080;
+      color: white;
+      padding: 15px 0;
+      margin-top: 40px;
+    }
+    footer strong {
+      color: #ffd700;
+      position: relative;
+    }
+    footer strong::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0%;
+      height: 2px;
+      background: #ffd700;
+      animation: underlineSlide 2s infinite alternate;
+    }
+    @keyframes underlineSlide {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+
+    /* highlight new notices */
+    .notice-new {
+      background: #fffbe6;
+      border-left: 4px solid #ffd166;
+      padding: 8px;
+      margin-bottom: 10px;
+      animation: fadeOut 6s forwards;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { opacity: 0.95; }
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">VCET ORBIT</div>
+    <ul>
+      <li><a href="home.html">🏠️Home</a></li>
+      <li><a href="about page.html">🌎️About</a></li>
+      <li><a href="index.html">🏫️Campus</a></li>
+      <li><a href="notice.html" class="active">📢️Notice Board</a></li>
+      <li><a href="timetable.html">📑️Time Table</a></li>
+      <li><a href="contact.html">📞️Contact</a></li>
+      <li><a href="lost and found page.html">🔎️Lost And Found</a></li>
+    </ul>
+  </nav>
+
+  <!-- NOTICE SECTION -->
+  <section class="notice-board">
+    <h1>📢 Notice Board</h1>
+
+    <p>
+      Stay updated with the latest <strong>VCET news, events, and announcements</strong> 🗞️ <br/>
+      The <strong>Notice Board</strong> keeps you informed about academic updates, exam schedules,
+      cultural activities, and more — all in one place!  
+      Check regularly so you never miss an important update. 📅🎉
+    </p>
+
+    <!-- THIS IS WHERE NOTICES WILL LOAD -->
+    <div class="notices" id="notice-container"></div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 VCET ORBIT | 👩‍💻️ Made for <strong>VCETians</strong> , by <strong>VCETians</strong></p>
+  </footer>
+
+  <!-- AUTO-UPDATE SCRIPT -->
+ <script>
+// inside notice.html
+const ENDPOINT = "http://localhost/vcet_orbit/backend/notice/get_notices.php";
+const POLL_MS = 15000; // 15 seconds - change to 5000 for fast testing
+
+let lastTopId = null;
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]));
+}
+
+function noticeCard(n){
+  return `
+    <div class="notice-card" data-id="${n.id}">
+      <h2>${escapeHtml(n.title)}</h2>
+      <p>${escapeHtml(n.content)}</p>
+      <span class="date">Posted: ${escapeHtml(n.date || '')}</span>
+    </div>
+  `;
+}
+
+async function fetchAndRender(initial=false){
+  try {
+    const res = await fetch(ENDPOINT, { cache: "no-store" });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const list = await res.json();
+    const container = document.getElementById('notice-container');
+    if (!container) return console.error('No #notice-container');
+
+    if (initial) {
+      container.innerHTML = list.map(n => noticeCard(n)).join('');
+      lastTopId = list[0] ? String(list[0].id) : null;
+      return;
+    }
+
+    const newest = list[0] ? String(list[0].id) : null;
+    if (newest && newest !== lastTopId) {
+      // full refresh (keeps ordering and avoids duplicates)
+      container.innerHTML = list.map(n => noticeCard(n)).join('');
+      // highlight top card briefly
+      const top = container.querySelector('.notice-card');
+      if (top) {
+        top.style.background = '#fffbe6';
+        setTimeout(()=> top.style.background = '', 3500);
+      }
+      lastTopId = newest;
+      // optional: update page title with count etc.
+    }
+  } catch (err) {
+    console.error('fetchAndRender error', err);
+  }
+}
+
+fetchAndRender(true);
+setInterval(()=> fetchAndRender(false), POLL_MS);
+</script>
+
+
+</body>
+</html>

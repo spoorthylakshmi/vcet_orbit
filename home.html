@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCET Orbit | Campus Helper</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+/* -------- GLOBAL -------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  /* Move image down so top building is visible */
+  background: url("vcetbg.jpg") center top/cover no-repeat;
+  height: 100vh;
+  color: #fff;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Overlay for better readability without hiding top building */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
+  z-index: 0;
+}
+
+
+/* -------- LOGO -------- */
+img[alt="VCET Logo"] {
+  position: fixed;
+  top: 15px;
+  left: 25px;
+  width: 170px;
+  z-index: 1002;
+  transition: transform 0.3s ease;
+}
+img[alt="VCET Logo"]:hover {
+  transform: scale(1.05);
+}
+
+/* -------- MARQUEE -------- */
+marquee {
+  background: rgba(255, 255, 255, 0.1); /* mostly transparent */
+  backdrop-filter: blur(10px); /* frosted glass blur */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* subtle glass border */
+  border-radius: 1px; /* rounded corners */
+  color: #ffd700; /* golden text for elegance */
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1); /* subtle depth */
+  position: relative;
+  z-index: 100;
+}
+
+
+
+/* -------- LOGIN BUTTON -------- */
+.login-btn {
+  position: fixed;
+  top: 48px;
+  right: 90px;
+  background: #ffd700;
+  color: #222;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  z-index: 1001;
+}
+.login-btn:hover {
+  background: #e6c200;
+  color: #fff;
+}
+
+/* -------- MENU BUTTON -------- */
+.menu-btn {
+  position: fixed;
+  top: 48px;
+  right: 20px;
+  background: #ffd700;
+  border: none;
+  color: #000;
+  font-size: 22px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  z-index: 1001;
+  transition: all 0.3s ease;
+}
+.menu-btn:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+
+/* -------- NAVBAR -------- */
+.navbar {
+  position: fixed;
+  top: 75px;
+  right: 20px;
+  background: rgba(34, 34, 34, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  display: none;
+  flex-direction: column;
+  padding: 18px 25px;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+.navbar.active {
+  display: flex;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.navbar ul {
+  list-style: none;
+}
+.navbar ul li {
+  margin: 10px 0;
+}
+.navbar ul li a {
+  color: #ddd;
+  text-decoration: none;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  padding: 5px 8px;
+  border-radius: 6px;
+}
+.navbar ul li a:hover {
+  color: #ffd700;
+  background: rgba(255, 255, 255, 0.1);
+  padding-left: 12px;
+}
+
+/* -------- HERO TEXT -------- */
+/* -------- HERO TEXT -------- */
+/* -------- HERO TEXT -------- */
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1;
+  color: #fff;
+  max-width: 900px; /* keep reasonable width */
+  padding: 0; /* no extra background padding needed */
+  border-radius: 12px; /* optional */
+}
+
+
+
+/* Elegant fade + slide animation for all text */
+.hero-text h1,
+.hero-text p,
+.hero-text a {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeSlideUp 1s ease forwards;
+}
+
+/* Staggered timing for each element */
+.hero-text h1 { animation-delay: 0.3s; }
+.hero-text p { animation-delay: 0.6s; }
+.hero-text a { animation-delay: 0.9s; }
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-text h1 {
+  font-size: 48px;
+  color: #ffd700;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.6);
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.hero-text p {
+  font-size: 18px;
+  color: #f5f5f5;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.hero-text a {
+  display: inline-block;
+  background: #ffd700;
+  color: #000;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.hero-text a:hover {
+  background: #fff;
+  transform: translateY(-3px);
+}
+
+
+@keyframes fadeBtn {
+  from {opacity: 0; transform: scale(0.9);}
+  to {opacity: 1; transform: scale(1);}
+}
+
+/* Floating effect (gentle up–down) */
+@keyframes floaty {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+
+/* -------- FOOTER -------- */
+
+/* -------- FOOTER -------- */
+footer {
+   text-align: center;
+  background: #004080;
+  color: white;
+  padding: 15px 0;
+  margin-top: 40px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: #111;
+  color: #ffd700;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 14px;
+  letter-spacing: 1px;
+  z-index: 100;
+  border-top: 1px solid #333;
+}
+footer strong {
+  color: #ffd700;  /* golden yellow */
+}
+footer strong::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background: #ffd700;
+  animation: underlineSlide 2s infinite alternate;
+}
+
+@keyframes underlineSlide {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+
+
+
+/* College name text beside logo */
+.college-name {
+  color: #000; /* You can switch to #fff if the background is dark */
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-left: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid #ffd700; /* typing cursor effect */
+  animation: typing 4s steps(60, end), blinkCursor 0.75s step-end infinite;
+}
+
+/* Typing animation */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Blinking cursor animation */
+@keyframes blinkCursor {
+  50% { border-color: transparent; }
+}
+
+/* Header layout adjustment */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffd700;
+  padding: 10px 40px;
+}
+
+.header img {
+  height: 70px;
+  width: auto;
+}
+
+
+</style>
+</head>
+
+<body>
+  <!-- Logo -->
+  <img src="logo.jpg.png" alt="VCET Logo">
+
+  <!-- Marquee -->
+  <marquee><b>VCET ORBIT | 🎓 EMPOWERING STUDENTS, ENRICHING CAMPUS LIFE</b></marquee>
+
+  <!-- Login Button -->
+  <a href="login.html" class="login-btn">Login</a>
+
+  <!-- Menu Button -->
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+  <!-- Navbar -->
+  <div class="navbar" id="menu">
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about page.html">About</a></li>
+      <li><a href="index.html">Campus</a></li>
+      <li><a href="notice.html">Notice Board</a></li>
+      <li><a href="timetable.html">Time Table</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <!-- <li><a href="#">Events</a></li> -->
+      <li><a href="lost and found page.html">Lost & Found</a></li>
+      <!-- <li><a href="#">Blood Donation</a></li> -->
+    </ul>
+  </div>
+
+  <!-- ===== HERO TEXT ===== -->
+  <div class="hero-text">
+    <h1>Welcome to VCET Orbit</h1>
+    <p>Connecting Students, Streamlining Campus Life, and Empowering Every VCETian.<br>
+       Stay updated with notices, events, and essentials — all in one place.</p>
+    
+    </div>    
+  <!-- Footer -->
+   <footer>
+  <p>© 2025 VCET ORBIT | 👩‍💻️ Made for <strong>VCETians</strong> ,by <strong>VCETians</strong></p>
+</footer>
+  <!-- <footer>Made for VCETians, by VCETians 💛</footer> -->
+
+
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("active");
+    }
+
+    document.addEventListener("click", function(event) {
+      const menu = document.getElementById("menu");
+      const button = document.querySelector(".menu-btn");
+      if (!menu.contains(event.target) && !button.contains(event.target)) {
+        menu.classList.remove("active");
+      }
+    });
+  </script>
+</body>
+</html>
