@@ -16,7 +16,10 @@
 
 body {
   font-family: "Poppins", sans-serif;
+<<<<<<< HEAD
   /* Move image down so top building is visible */
+=======
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
   background: url("vcetbg.jpg") center top/cover no-repeat;
   height: 100vh;
   color: #fff;
@@ -24,7 +27,10 @@ body {
   position: relative;
 }
 
+<<<<<<< HEAD
 /* Overlay for better readability without hiding top building */
+=======
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
 body::before {
   content: "";
   position: absolute;
@@ -34,7 +40,10 @@ body::before {
   z-index: 0;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
 /* -------- LOGO -------- */
 img[alt="VCET Logo"] {
   position: fixed;
@@ -50,21 +59,33 @@ img[alt="VCET Logo"]:hover {
 
 /* -------- MARQUEE -------- */
 marquee {
+<<<<<<< HEAD
   background: rgba(255, 255, 255, 0.1); /* mostly transparent */
   backdrop-filter: blur(10px); /* frosted glass blur */
   -webkit-backdrop-filter: blur(10px); /* Safari support */
   border: 1px solid rgba(255, 255, 255, 0.3); /* subtle glass border */
   border-radius: 1px; /* rounded corners */
   color: #ffd700; /* golden text for elegance */
+=======
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 1px;
+  color: #ffd700;
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
   font-weight: 600;
   font-size: 15px;
   letter-spacing: 1px;
   padding: 10px 20px;
+<<<<<<< HEAD
   box-shadow: 0 8px 32px rgba(0,0,0,0.1); /* subtle depth */
+=======
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
   position: relative;
   z-index: 100;
 }
 
+<<<<<<< HEAD
 
 
 /* -------- LOGIN BUTTON -------- */
@@ -105,12 +126,39 @@ marquee {
 }
 .menu-btn:hover {
   background: #fff;
+=======
+/* -------- LOGIN & SIGNUP BUTTONS -------- */
+.header-buttons {
+  position: fixed;
+  top: 45px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 1002;
+}
+
+.header-buttons a {
+  background: #ffd700;
+  color: #222;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.header-buttons a:hover {
+  background: #fff;
+  color: #000;
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
   transform: scale(1.05);
 }
 
 /* -------- NAVBAR -------- */
 .navbar {
   position: fixed;
+<<<<<<< HEAD
   top: 75px;
   right: 20px;
   background: rgba(34, 34, 34, 0.9);
@@ -137,6 +185,23 @@ marquee {
 .navbar ul li {
   margin: 10px 0;
 }
+=======
+  top: 110px;
+  right: 20px;
+  background: rgba(34,34,34,0.9);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  padding: 18px 25px;
+  z-index: 1000;
+}
+
+.navbar ul { list-style: none; }
+.navbar ul li { margin: 10px 0; }
+
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
 .navbar ul li a {
   color: #ddd;
   text-decoration: none;
@@ -147,6 +212,7 @@ marquee {
 }
 .navbar ul li a:hover {
   color: #ffd700;
+<<<<<<< HEAD
   background: rgba(255, 255, 255, 0.1);
   padding-left: 12px;
 }
@@ -157,10 +223,20 @@ marquee {
 .hero-text {
   position: absolute;
   top: 50%;
+=======
+  background: rgba(255,255,255,0.1);
+}
+
+/* -------- HERO TEXT -------- */
+.hero-text {
+  position: absolute;
+  top: 55%;
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
   z-index: 1;
+<<<<<<< HEAD
   color: #fff;
   max-width: 900px; /* keep reasonable width */
   padding: 0; /* no extra background padding needed */
@@ -173,11 +249,18 @@ marquee {
 .hero-text h1,
 .hero-text p,
 .hero-text a {
+=======
+  max-width: 900px;
+}
+
+.hero-text h1, .hero-text p {
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
   opacity: 0;
   transform: translateY(40px);
   animation: fadeSlideUp 1s ease forwards;
 }
 
+<<<<<<< HEAD
 /* Staggered timing for each element */
 .hero-text h1 { animation-delay: 0.3s; }
 .hero-text p { animation-delay: 0.6s; }
@@ -246,6 +329,18 @@ footer {
   color: white;
   padding: 15px 0;
   margin-top: 40px;
+=======
+.hero-text h1 { animation-delay: 0.3s; font-size: 48px; font-weight: 700; color: #ffd700; text-shadow: 0 3px 8px rgba(0,0,0,0.6); }
+.hero-text p { animation-delay: 0.6s; font-size: 18px; color: #f5f5f5; margin-top: 15px; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* -------- FOOTER -------- */
+footer {
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
   position: fixed;
   left: 0;
   bottom: 0;
@@ -255,6 +350,7 @@ footer {
   text-align: center;
   padding: 15px 0;
   font-size: 14px;
+<<<<<<< HEAD
   letter-spacing: 1px;
   z-index: 100;
   border-top: 1px solid #333;
@@ -320,10 +416,18 @@ footer strong::after {
 }
 
 
+=======
+  border-top: 1px solid #333;
+  z-index: 100;
+}
+
+footer strong { color: #ffd700; }
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
 </style>
 </head>
 
 <body>
+<<<<<<< HEAD
   <!-- Logo -->
   <img src="logo.jpg.png" alt="VCET Logo">
 
@@ -336,6 +440,20 @@ footer strong::after {
   <!-- Menu Button -->
   <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
+=======
+
+<img src="logo.jpg.png" alt="VCET Logo">
+
+<marquee><b>VCET ORBIT | 🎓 EMPOWERING STUDENTS, ENRICHING CAMPUS LIFE</b></marquee>
+
+<!-- Login & Signup -->
+<div class="header-buttons">
+  <a href="login.html">Login</a>
+  <a href="signup.html">Sign Up</a>
+</div>
+
+<<<<<<< HEAD
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
   <!-- Navbar -->
   <div class="navbar" id="menu">
     <ul>
@@ -346,6 +464,7 @@ footer strong::after {
       <li><a href="timetable.html">Time Table</a></li>
       <li><a href="contact.html">Contact</a></li>
       <!-- <li><a href="#">Events</a></li> -->
+<<<<<<< HEAD
       <li><a href="lost and found page.html">Lost & Found</a></li>
       <!-- <li><a href="#">Blood Donation</a></li> -->
     </ul>
@@ -381,3 +500,27 @@ footer strong::after {
   </script>
 </body>
 </html>
+=======
+      <li><a href="lost_and_found_page.php">Lost & Found</a></li>
+      <!-- <li><a href="#">Blood Donation</a></li> -->
+    </ul>
+  </div>
+=======
+<!-- Navigation -->
+>>>>>>> 8212cfcba037434e64a213e6d469706d6fcfc2d5
+
+
+<!-- Welcome Text -->
+<div class="hero-text">
+  <h1>Welcome to VCET Orbit</h1>
+  <p>Connecting Students, Streamlining Campus Life, and Empowering Every VCETian.<br>
+     Stay updated with notices, events, and essentials — all in one place.</p>
+</div>
+
+<footer>
+  <p>© 2025 VCET ORBIT | 👩‍💻️ Made for <strong>VCETians</strong> , by <strong>VCETians</strong></p>
+</footer>
+
+</body>
+</html>
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2

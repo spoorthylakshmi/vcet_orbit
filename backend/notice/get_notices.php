@@ -1,36 +1,31 @@
 <?php
-// allow Live Server (or any origin) to fetch JSON from this API
-header('Access-Control-Allow-Origin: *'); // permissive for demo; for production restrict to known origin
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json; charset=utf-8');
-
-// turn off display_errors to avoid HTML in JSON
-ini_set('display_errors', 0);
-error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
-
-// ... rest of your get_notices.php code follows
-
-// backend/notice/get_notices.php
-header('Content-Type: application/json; charset=utf-8');
-// disable display of PHP warnings to browser
-ini_set('display_errors', 0);
-error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
-
 require_once __DIR__ . '/../db_connect.php';
 
-$sql = "SELECT id, title, content, date, pinned FROM notices ORDER BY pinned DESC, date DESC LIMIT 200";
-$res = $conn->query($sql);
+// ?all=1 will return all records (including inactive). Default returns only active, not expired.
+$all = isset($_GET['all']) && ($_GET['all'] === '1' || strtolower($_GET['all']) === 'true');
 
-$notices = [];
-if ($res) {
-    while ($row = $res->fetch_assoc()) {
-        // ensure fields exist
-        $row['date'] = $row['date'] ?? null;
-        $row['pinned'] = isset($row['pinned']) ? (int)$row['pinned'] : 0;
-        $notices[] = $row;
-    }
+if ($all) {
+    $sql = "SELECT id, title, content, posted_by, created_at, expires_at, is_active FROM notices ORDER BY created_at DESC";
+    $stmt = $mysqli->prepare($sql);
+} else {
+    $sql = "SELECT id, title, content, posted_by, created_at, expires_at, is_active
+            FROM notices
+            WHERE is_active = 1 AND (expires_at IS NULL OR expires_at > NOW())
+            ORDER BY created_at DESC";
+    $stmt = $mysqli->prepare($sql);
 }
 
-echo json_encode($notices);
-$conn->close();
+if (!$stmt) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Prepare failed: ' . $mysqli->error]);
+    exit;
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+$rows = $result->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+// Return JSON array of notices
+echo json_encode(['notices' => $rows]);

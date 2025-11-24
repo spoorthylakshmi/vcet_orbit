@@ -1,12 +1,14 @@
+<!-- db_connect.php -->
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "vcet_orbit";
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db = "vcet_orbit";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($host, $user, $pass, $db);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+$conn->set_charset("utf8mb4");
 ?>
