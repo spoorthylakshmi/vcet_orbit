@@ -145,7 +145,7 @@
       <h2>📌 Recent Reports</h2>
 
       <?php
-      $query = "SELECT * FROM lost_found ORDER BY id DESC";
+      $query = "SELECT * FROM add_lost_found ORDER BY id DESC";
       $result = $conn->query($query);
 
       while ($row = $result->fetch_assoc()) {

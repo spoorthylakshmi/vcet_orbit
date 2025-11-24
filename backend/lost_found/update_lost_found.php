@@ -1,6 +1,6 @@
 
 <?php
-include 'db_connect.php';
+include '../db_connect.php';
 
 $id = $_POST["id"];
 $status = $_POST["status"];

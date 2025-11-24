@@ -1,6 +1,6 @@
 
 <?php
-include 'db_connect.php';
+include '../db_connect.php';
 
 $item_name = $_POST['item_name'];
 $location = $_POST['location'];
