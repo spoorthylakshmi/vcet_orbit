@@ -1,6 +1,7 @@
 <?php
 include '../db_connect.php';
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $item = $_POST["item_name"];
     $desc = $_POST["description"];
@@ -12,9 +13,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($conn->query($sql) === TRUE) {
         echo "Item reported successfully";
     } else {
-        echo "Error: " . $conn->error;
+        echo "SQL Error: " . $conn->error;
     }
 }
 
 $conn->close();
 ?>
+
+
+

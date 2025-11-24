@@ -1,6 +1,7 @@
 <?php
 include '../db_connect.php';
 
+
 $sql = "SELECT * FROM lost_found ORDER BY date DESC";
 $result = $conn->query($sql);
 
@@ -15,3 +16,5 @@ if ($result->num_rows > 0) {
 echo json_encode($items);
 $conn->close();
 ?>
+
+
