@@ -161,15 +161,15 @@ Together, we help every VCETian reconnect with their belongings! 🤝🎒
 
     <p>Report lost items or check if someone has found them.</p>
 
-    <!-- Form to Add Item -->
-    <form id="lostForm" class="lost-form">
-      <input type="text" id="itemName" placeholder="Item name (e.g., ID card, book)" required>
-      <input type="text" id="location" placeholder="Where it was lost/found" required>
-      <textarea id="description" placeholder="Description..." required></textarea>
-      <input type="file" id="image" accept="image/*">
-      <input type="text" id="contact" placeholder="Your contact info (email/phone)" required>
-      <button type="submit">Submit</button>
-    </form>
+   <form id="lostForm" class="lost-form" enctype="multipart/form-data">
+  <input type="text" name="item_name" id="itemName" placeholder="Item name" required>
+  <input type="text" name="location" id="location" placeholder="Where it was lost/found" required>
+  <textarea name="description" id="description" placeholder="Description..." required></textarea>
+  <input type="file" name="photo" id="image" accept="image/*">
+  <input type="text" name="contact" id="contact" placeholder="Your contact info" required>
+  <button type="submit">Submit</button>
+</form>
+
 
     <!-- Display Lost & Found Items -->
     <div class="items-board" id="itemsBoard">
@@ -212,6 +212,22 @@ Together, we help every VCETian reconnect with their belongings! 🤝🎒
       // Reset form
       document.getElementById("lostForm").reset();
     });
+    // Fetch existing lost & found items from backend
+fetch("backend/lost_found/get_lost_found.php")
+  .then(res => res.json())
+  .then(data => {
+    let box = document.getElementById("lost-container");
+    box.innerHTML = data.map(item => `
+      <div class="card">
+         <h3>${item.item_name}</h3>
+         <p>${item.description}</p>
+         <p><strong>Contact:</strong> ${item.contact}</p>
+         <p><strong>Status:</strong> ${item.status}</p>
+      </div>
+    `).join('');
+  });
+
+
   </script>
 
 </body>
