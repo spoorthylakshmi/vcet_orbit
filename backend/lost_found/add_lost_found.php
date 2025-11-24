@@ -1,36 +1,51 @@
 <?php
-include '../db_connect.php';
+// backend/add_lost_found.php
+include __DIR__ . '/db_connect.php';
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo "Invalid request.";
+    exit;
+}
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$item = isset($_POST['item_name']) ? trim($_POST['item_name']) : '';
+$desc = isset($_POST['description']) ? trim($_POST['description']) : '';
+$contact = isset($_POST['contact']) ? trim($_POST['contact']) : '';
 
-    $item = $_POST["item_name"];
-    $desc = $_POST["description"];
-    $contact = $_POST["contact"];
+if ($item === '' || $contact === '') {
+    echo "Missing required fields.";
+    exit;
+}
 
-    // Upload image
-    $targetDir = "../../uploads/";
-    $fileName = time() . "_" . basename($_FILES["photo"]["name"]);
-    $targetFilePath = $targetDir . $fileName;
+$imagePath = null;
+if (!empty($_FILES['photo']['name']) && is_uploaded_file($_FILES['photo']['tmp_name'])) {
+    $uploadsDir = __DIR__ . '/../../uploads/';
+    if (!is_dir($uploadsDir)) mkdir($uploadsDir, 0777, true);
 
-    if (move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFilePath)) {
-        $photo_path = "uploads/" . $fileName;
+    $orig = basename($_FILES['photo']['name']);
+    $ext = pathinfo($orig, PATHINFO_EXTENSION);
+    $filename = time() . '_' . bin2hex(random_bytes(6)) . ($ext ? '.' . $ext : '');
+    $target = $uploadsDir . $filename;
 
-        $sql = "INSERT INTO lost_found (item_name, description, contact, status, photo)
-                VALUES ('$item', '$desc', '$contact', 'lost', '$photo_path')";
-
-        if ($conn->query($sql) === TRUE) {
-            echo "Item reported successfully";
-        } else {
-            echo "DB Error: " . $conn->error;
-        }
+    if (move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
+        // use relative path from web root
+        $imagePath = 'uploads/' . $filename;
     } else {
         echo "Image upload failed.";
+        exit;
     }
 }
 
+$stmt = $conn->prepare("INSERT INTO lost_found (item_name, description, contact, status, image_path) VALUES (?, ?, ?, 'Lost', ?)");
+if (!$stmt) {
+    echo "Prepare failed: " . $conn->error;
+    exit;
+}
+$stmt->bind_param('ssss', $item, $desc, $contact, $imagePath);
+if ($stmt->execute()) {
+    echo "Item reported successfully";
+} else {
+    echo "DB Error: " . $stmt->error;
+}
+$stmt->close();
 $conn->close();
 ?>
-
-
-
