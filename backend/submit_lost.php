@@ -1,6 +1,6 @@
 <?php
-// backend/submit_lost.php
-include __DIR__ . '/db_connect.php';
+include __DIR__ . '/../db_connect.php';
+
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ../lost_and_found_page.php');

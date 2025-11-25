@@ -1,4 +1,5 @@
-<?php include 'backend/db_connect.php'; ?>
+<?php include __DIR__ . '/db_connect.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Campus Helper - Lost & Found</title>
   <style>
-  /* (your existing styles kept) */
   body{ background-color:#f3f0f9; font-family:Arial,sans-serif; }
   .navbar { display:flex; justify-content:space-between; align-items:center; background:#004080; padding:15px 30px; }
   p{ font-size: medium; font-family: Arial, sans-serif; }
@@ -67,29 +67,64 @@
           while ($row = $result->fetch_assoc()) {
               $imgSrc = null;
               if (!empty($row['image_path'])) {
-                  // image_path is stored like "uploads/filename.jpg" relative to root
                   $candidate = $row['image_path'];
-                  // Prefer the path if file exists
                   if (file_exists(__DIR__ . '/' . $candidate)) {
                       $imgSrc = $candidate;
                   } elseif (file_exists(__DIR__ . '/backend/' . $candidate)) {
                       $imgSrc = 'backend/' . $candidate;
                   } else {
-                      // if file not present, keep the stored path — browser will attempt to load it
                       $imgSrc = $candidate;
                   }
               }
       ?>
         <div class="item-card">
           <?php if (!empty($imgSrc)) { ?>
-            <img src="<?= htmlspecialchars($imgSrc, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>" alt="Item Image">
+            <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Item Image">
           <?php } ?>
-          <h3><?= htmlspecialchars($row['item_name'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></h3>
-          <p><strong>Description:</strong> <?= nl2br(htmlspecialchars($row['description'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')) ?></p>
-          <p><strong>Location:</strong> <?= htmlspecialchars($row['location'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></p>
-          <p><strong>Contact:</strong> <?= htmlspecialchars($row['contact'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></p>
-          <p><strong>Status:</strong> <?= htmlspecialchars($row['status'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></p>
-          <p><strong>Date:</strong> <?= htmlspecialchars($row['date'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></p>
+          
+          <h3><?= htmlspecialchars($row['item_name']) ?></h3>
+          <p><strong>Description:</strong> <?= nl2br(htmlspecialchars($row['description'] ?? '')) ?></p>
+          <p><strong>Location:</strong> <?= htmlspecialchars($row['location'] ?? '') ?></p>
+          <p><strong>Contact:</strong> <?= htmlspecialchars($row['contact'] ?? '') ?></p>
+          <p><strong>Status:</strong> <?= htmlspecialchars($row['status']) ?></p>
+          <p><strong>Date:</strong> <?= htmlspecialchars($row['date']) ?></p>
+
+          <!-- ⭐ Mark as Found Button -->
+          <?php if ($row['status'] === 'Lost') { ?>
+            <form action="backend/mark_found.php" method="POST">
+              <input type="hidden" name="id" value="<?= $row['id']; ?>">
+              <button type="submit" style="
+                padding: 8px 12px;
+                background: green;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 10px;
+              ">
+                ✔ Mark as Found
+              </button>
+            </form>
+          <?php } else { ?>
+            <p style="color: green; font-weight: bold; margin-top: 10px;">✔ This item is marked as FOUND</p>
+          <?php } ?>
+
+          <!-- 🗑 Delete Button (Admin-Only) -->
+          <form action="backend/delete_item.php" method="POST" onsubmit="return confirmDelete();">
+            <input type="hidden" name="id" value="<?= $row['id']; ?>">
+            <button type="submit" style="
+                padding: 8px 12px;
+                background: red;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 10px;
+            ">
+                🗑 Delete
+            </button>
+          </form>
+
         </div>
       <?php
           }
@@ -103,6 +138,14 @@
   <footer>
     <p>© 2025 VCET ORBIT | 👩‍💻 Made for <strong>VCETians</strong>, by <strong>VCETians</strong></p>
   </footer>
+
+<script>
+function confirmDelete() {
+    let pwd = prompt("Enter admin password to delete:");
+    if (pwd === null) return false;
+    return pwd === "vcetadmin123";
+}
+</script>
 
 </body>
 </html>

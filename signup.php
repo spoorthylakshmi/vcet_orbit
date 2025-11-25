@@ -1,8 +1,8 @@
-// Get form data
+<?php
+include 'db_connect.php'; // make sure this path is correct
+
 $email = $_POST['email'];
 $pass = $_POST['password'];
-$phone = $_POST['phone'];
-$blood_group = $_POST['blood_group'];
 
 // Check if email already exists
 $check = "SELECT * FROM users WHERE email='$email'";
@@ -10,16 +10,16 @@ $result = $conn->query($check);
 
 if ($result->num_rows > 0) {
   echo "<script>alert('Email already registered. Please log in.'); 
-        window.location='loginpage.html';</script>";
+        window.location='login.html';</script>";
 } else {
 
-  // Insert new user
-  $sql = "INSERT INTO users (email, password, phone, blood_group)
-          VALUES ('$email', '$pass', '$phone', '$blood_group')";
+  // Insert new user (FIXED)
+  $sql = "INSERT INTO users (email, password)
+          VALUES ('$email', '$pass')";
 
   if ($conn->query($sql) === TRUE) {
     echo "<script>alert('Signup successful! You can now log in.'); 
-          window.location='loginpage.html';</script>";
+          window.location='login.html';</script>";
   } else {
     echo "Error: " . $conn->error;
   }

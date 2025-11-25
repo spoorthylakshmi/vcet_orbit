@@ -1,5 +1,6 @@
 <?php
-include 'conn.php'; // FIXED include
+include __DIR__ . '/db_connect.php';
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = $_POST['email'];
