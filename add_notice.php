@@ -1,5 +1,22 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json; charset=utf-8');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // respond to preflight quickly
+    http_response_code(204);
+    exit;
+}
+
+// ... rest of add_notice.php
+
+// backend/notice/add_notice.php
+header('Content-Type: application/json; charset=utf-8');
+ini_set('display_errors', 0);
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
+
 require_once __DIR__ . '/../db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

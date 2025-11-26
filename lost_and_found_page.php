@@ -33,19 +33,19 @@
   <nav class="navbar">
     <div class="logo">VCET ORBIT</div>
     <ul>
-      <li><a href="home.html">🏠️Home</a></li>
-      <li><a href="about page.html">🌎️About</a></li>
-      <li><a href="index.html">🏫️Campus</a></li>
-      <li><a href="notice.html">📢️Notice Board</a></li>
-      <li><a href="timetable.html">📑️Time Table</a></li>
-      <li><a href="contact.html">📞️Contact</a></li>
-      <li><a href="lost_and_found_page.php" class="active">🔎️Lost And Found</a></li>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about page.html">About</a></li>
+      <li><a href="index.html">Campus</a></li>
+      <li><a href="notice.html">Notice Board</a></li>
+      <li><a href="timetable.html">Time Table</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="lost_and_found_page.php" class="active">Lost And Found</a></li>
     </ul>
   </nav>
 
   <section class="lost-found">
-    <h1>🔎 Lost & Found</h1>
-    <p>Welcome to the <strong>VCET Lost & Found Corner</strong> 🔍</p>
+    <h1>Lost & Found</h1>
+    <p>Welcome to the <strong>VCET Lost & Found Corner</strong> </p>
 
     <form action="backend/submit_lost.php" method="POST" enctype="multipart/form-data" class="lost-form">
       <input type="text" name="item_name" placeholder="Item name" required>
@@ -57,7 +57,7 @@
     </form>
 
     <div class="items-board">
-      <h2>📌 Recent Reports</h2>
+      <h2>Recent Reports</h2>
 
       <?php
         $query = "SELECT id, item_name, location, description, contact, status, date, image_path FROM lost_found ORDER BY date DESC";
@@ -89,7 +89,7 @@
           <p><strong>Status:</strong> <?= htmlspecialchars($row['status']) ?></p>
           <p><strong>Date:</strong> <?= htmlspecialchars($row['date']) ?></p>
 
-          <!-- ⭐ Mark as Found Button -->
+          <!-- Mark as Found Button -->
           <?php if ($row['status'] === 'Lost') { ?>
             <form action="backend/mark_found.php" method="POST">
               <input type="hidden" name="id" value="<?= $row['id']; ?>">
@@ -109,10 +109,12 @@
             <p style="color: green; font-weight: bold; margin-top: 10px;">✔ This item is marked as FOUND</p>
           <?php } ?>
 
-          <!-- 🗑 Delete Button (Admin-Only) -->
-          <form action="backend/delete_item.php" method="POST" onsubmit="return confirmDelete();">
-            <input type="hidden" name="id" value="<?= $row['id']; ?>">
-            <button type="submit" style="
+          <!-- Delete Button (Admin) -->
+          <form action="backend/delete_item.php" method="POST" onsubmit="return confirmDelete(this);">
+              <input type="hidden" name="id" value="<?= $row['id']; ?>">
+              <input type="hidden" name="password"> <!-- FIX: sends pwd -->
+              
+              <button type="submit" style="
                 padding: 8px 12px;
                 background: red;
                 color: white;
@@ -120,9 +122,7 @@
                 border-radius: 5px;
                 cursor: pointer;
                 margin-top: 10px;
-            ">
-                🗑 Delete
-            </button>
+              ">🗑 Delete</button>
           </form>
 
         </div>
@@ -140,10 +140,12 @@
   </footer>
 
 <script>
-function confirmDelete() {
+function confirmDelete(form) {
     let pwd = prompt("Enter admin password to delete:");
-    if (pwd === null) return false;
-    return pwd === "vcetadmin123";
+    if (pwd === null || pwd === "") return false;
+
+    form.password.value = pwd;  // send password to PHP
+    return true;
 }
 </script>
 

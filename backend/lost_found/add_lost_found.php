@@ -1,4 +1,23 @@
 <?php
+<<<<<<< HEAD
+include '../db_connect.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $item = $_POST["item_name"];
+    $desc = $_POST["description"];
+    $contact = $_POST["contact"];
+
+    $sql = "INSERT INTO lost_found (item_name, description, contact, status)
+            VALUES ('$item', '$desc', '$contact', 'lost')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Item reported successfully";
+    } else {
+        echo "Error: " . $conn->error;
+    }
+}
+
+=======
 // backend/add_lost_found.php
 include __DIR__ . '/db_connect.php';
 
@@ -47,5 +66,6 @@ if ($stmt->execute()) {
     echo "DB Error: " . $stmt->error;
 }
 $stmt->close();
+>>>>>>> 50627e0d05734aa3e46218613e8f5099b22e9fb2
 $conn->close();
 ?>

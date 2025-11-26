@@ -43,10 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </style>
       </head>
       <body>
-        <h2>Login successful 🎉</h2>
+        <h2>Login successful !!</h2>
         <script>
           setTimeout(function() {
-            window.location.href = 'dashboard.php';
+            // After successful login, redirect to About page
+            window.location.href = 'about page.html';
           }, 1500);
         </script>
       </body>
