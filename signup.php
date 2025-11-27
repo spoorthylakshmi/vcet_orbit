@@ -1,29 +1,27 @@
+
 <?php
-include 'db_connect.php'; // make sure this path is correct
+include __DIR__ . '/db_connect.php';  // loads $mysqli
 
-$email = $_POST['email'];
-$pass = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-// Check if email already exists
-$check = "SELECT * FROM users WHERE email='$email'";
-$result = $conn->query($check);
+    $email = trim($_POST['email'] ?? "");
+    $password = trim($_POST['password'] ?? "");
 
-if ($result->num_rows > 0) {
-  echo "<script>alert('Email already registered. Please log in.'); 
-        window.location='login.html';</script>";
-} else {
+    if ($email === "" || $password === "") {
+        die("<script>alert('All fields are required.'); window.history.back();</script>");
+    }
 
-  // Insert new user (FIXED)
-  $sql = "INSERT INTO users (email, password)
-          VALUES ('$email', '$pass')";
+    // Insert only email + password
+    $stmt = $mysqli->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
+    $stmt->bind_param("ss", $email, $password);
 
-  if ($conn->query($sql) === TRUE) {
-    echo "<script>alert('Signup successful! You can now log in.'); 
-          window.location='login.html';</script>";
-  } else {
-    echo "Error: " . $conn->error;
-  }
+    if ($stmt->execute()) {
+        echo "<script>alert('Signup successful!'); window.location.href='login.html';</script>";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $mysqli->close();
 }
-
-$conn->close();
 ?>

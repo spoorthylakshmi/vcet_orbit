@@ -9,25 +9,29 @@
   <style>
   body{ background-color:#f3f0f9; font-family:Arial,sans-serif; }
   .navbar { display:flex; justify-content:space-between; align-items:center; background:#004080; padding:15px 30px; }
-  p{ font-size: medium; font-family: Arial, sans-serif; }
+  p{ font-size: medium; }
   .navbar .logo { font-size:20px; font-weight:bold; color:white; }
-  .navbar ul { list-style:none; display:flex; gap:20px; margin:0; padding:0; }
-  .navbar ul li a { text-decoration:none; color:white; padding:8px 15px; border-radius:5px; transition:.3s; }
+  .navbar ul { list-style:none; display:flex; gap:20px; }
+  .navbar ul li a { text-decoration:none; color:white; padding:8px 15px; border-radius:5px; }
   .navbar ul li a:hover, .navbar ul li a.active { background:#0066cc; }
+
   .lost-found { padding:40px; text-align:center; }
-  .lost-found h1 { color:#004080; }
-  .lost-form { display:flex; flex-direction:column; gap:15px; max-width:500px; margin:20px auto; background:#f1f1f1; padding:20px; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,.1); }
-  .lost-form input, .lost-form textarea, .lost-form button { padding:10px; border:1px solid #ccc; border-radius:8px; font-size:15px; }
-  .lost-form textarea { resize:none; height:80px; }
-  .lost-form button { background:#004080; color:white; border:none; cursor:pointer; }
+  .lost-form { display:flex; flex-direction:column; gap:15px; max-width:500px; margin:20px auto;
+               background:#f1f1f1; padding:20px; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,.1); }
+  .lost-form input, .lost-form textarea { padding:10px; border:1px solid #ccc; border-radius:8px; }
+  .lost-form button { padding:10px; background:#004080; color:white; border:none; border-radius:8px;
+                      cursor:pointer; }
   .lost-form button:hover { background:#0066cc; }
+
   .items-board { margin-top:40px; }
-  .item-card { background:#fff; padding:15px; margin:15px auto; border-radius:10px; max-width:500px; text-align:left; box-shadow:0 4px 6px rgba(0,0,0,.1); }
-  .item-card img { width:100%; max-height:220px; object-fit:cover; border-radius:10px; margin-bottom:10px; }
+  .item-card { background:#fff; padding:15px; margin:15px auto; border-radius:10px; max-width:500px;
+               box-shadow:0 4px 6px rgba(0,0,0,.1); }
+  .item-card img { width:100%; height:auto; border-radius:10px; }
+
   footer { text-align:center; background:#004080; color:white; padding:15px 0; margin-top:40px; }
-  footer strong { color:#ffd700; }
   </style>
 </head>
+
 <body>
 
   <nav class="navbar">
@@ -45,13 +49,13 @@
 
   <section class="lost-found">
     <h1>Lost & Found</h1>
-    <p>Welcome to the <strong>VCET Lost & Found Corner</strong> </p>
 
+    <!-- Correct path -->
     <form action="backend/submit_lost.php" method="POST" enctype="multipart/form-data" class="lost-form">
       <input type="text" name="item_name" placeholder="Item name" required>
       <input type="text" name="location" placeholder="Location">
       <textarea name="description" placeholder="Description..."></textarea>
-      <input type="file" name="image" accept="image/*">
+      <input type="file" name="image">
       <input type="text" name="contact" placeholder="Contact (phone/email)" required>
       <button type="submit">Submit</button>
     </form>
@@ -60,91 +64,66 @@
       <h2>Recent Reports</h2>
 
       <?php
-        $query = "SELECT id, item_name, location, description, contact, status, date, image_path FROM lost_found ORDER BY date DESC";
-        $result = $conn->query($query);
+        $query = "SELECT * FROM lost_found ORDER BY date DESC";
+        $result = $mysqli->query($query);
 
         if ($result && $result->num_rows > 0) {
           while ($row = $result->fetch_assoc()) {
-              $imgSrc = null;
-              if (!empty($row['image_path'])) {
-                  $candidate = $row['image_path'];
-                  if (file_exists(__DIR__ . '/' . $candidate)) {
-                      $imgSrc = $candidate;
-                  } elseif (file_exists(__DIR__ . '/backend/' . $candidate)) {
-                      $imgSrc = 'backend/' . $candidate;
-                  } else {
-                      $imgSrc = $candidate;
-                  }
-              }
+
+            $img = $row['image_path'] ? "backend/uploads/" . $row['image_path'] : "";
       ?>
         <div class="item-card">
-          <?php if (!empty($imgSrc)) { ?>
-            <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Item Image">
-          <?php } ?>
-          
+
+          <?php if (!empty($row['image_path'])): ?>
+            <img src="<?= $img ?>">
+          <?php endif; ?>
+
           <h3><?= htmlspecialchars($row['item_name']) ?></h3>
-          <p><strong>Description:</strong> <?= nl2br(htmlspecialchars($row['description'] ?? '')) ?></p>
-          <p><strong>Location:</strong> <?= htmlspecialchars($row['location'] ?? '') ?></p>
-          <p><strong>Contact:</strong> <?= htmlspecialchars($row['contact'] ?? '') ?></p>
+          <p><strong>Description:</strong> <?= nl2br(htmlspecialchars($row['description'])) ?></p>
+          <p><strong>Location:</strong> <?= htmlspecialchars($row['location']) ?></p>
+          <p><strong>Contact:</strong> <?= htmlspecialchars($row['contact']) ?></p>
           <p><strong>Status:</strong> <?= htmlspecialchars($row['status']) ?></p>
           <p><strong>Date:</strong> <?= htmlspecialchars($row['date']) ?></p>
 
-          <!-- Mark as Found Button -->
-          <?php if ($row['status'] === 'Lost') { ?>
+          <?php if ($row['status'] === "Lost"): ?>
             <form action="backend/mark_found.php" method="POST">
-              <input type="hidden" name="id" value="<?= $row['id']; ?>">
-              <button type="submit" style="
-                padding: 8px 12px;
-                background: green;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                margin-top: 10px;
-              ">
-                ✔ Mark as Found
+              <input type="hidden" name="id" value="<?= $row['id'] ?>">
+              <button style="background:green;color:white;padding:8px 12px;border:none;border-radius:5px;margin-top:10px;">
+                ✔ Mark As Found
               </button>
             </form>
-          <?php } else { ?>
-            <p style="color: green; font-weight: bold; margin-top: 10px;">✔ This item is marked as FOUND</p>
-          <?php } ?>
+          <?php endif; ?>
 
-          <!-- Delete Button (Admin) -->
-          <form action="backend/delete_item.php" method="POST" onsubmit="return confirmDelete(this);">
-              <input type="hidden" name="id" value="<?= $row['id']; ?>">
-              <input type="hidden" name="password"> <!-- FIX: sends pwd -->
-              
-              <button type="submit" style="
-                padding: 8px 12px;
-                background: red;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                margin-top: 10px;
-              ">🗑 Delete</button>
+          <!-- Delete -->
+          <form action="backend/delete_item.php" method="POST" onsubmit="return askAdmin(this)">
+            <input type="hidden" name="id" value="<?= $row['id'] ?>">
+            <input type="hidden" name="password">
+            <button style="background:red;color:white;padding:8px 12px;border:none;border-radius:5px;margin-top:10px;">
+              🗑 Delete
+            </button>
           </form>
 
         </div>
+
       <?php
           }
         } else {
           echo "<p>No reports yet.</p>";
         }
       ?>
+
     </div>
   </section>
 
   <footer>
-    <p>© 2025 VCET ORBIT | 👩‍💻 Made for <strong>VCETians</strong>, by <strong>VCETians</strong></p>
+    <p>© 2025 VCET ORBIT | Made for VCETians, by VCETians</p>
   </footer>
 
 <script>
-function confirmDelete(form) {
-    let pwd = prompt("Enter admin password to delete:");
-    if (pwd === null || pwd === "") return false;
-
-    form.password.value = pwd;  // send password to PHP
+function askAdmin(form) {
+    let pwd = prompt("Enter admin password:");
+    if (!pwd) return false;
+    form.password.value = pwd;
     return true;
 }
 </script>

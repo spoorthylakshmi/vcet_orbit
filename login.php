@@ -1,20 +1,23 @@
 <?php
 include __DIR__ . '/db_connect.php';
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $email = $_POST['email'];
-  $password = $_POST['password'];
+  $email = $_POST['email'] ?? '';
+  $password = $_POST['password'] ?? '';
 
-  // Check if email exists
-  $sql = "SELECT * FROM users WHERE email='$email'";
-  $result = $conn->query($sql);
+  // Use prepared statement for safety
+  $stmt = $mysqli->prepare("SELECT * FROM users WHERE email = ?");
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
 
-  if ($result->num_rows > 0) {
+  $result = $stmt->get_result();
+
+  if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
 
-    // Verify password (plain text check for now)
+    // Plain-text password check (same as your original)
     if ($row['password'] === $password) {
+      
       echo "
       <!DOCTYPE html>
       <html>
@@ -46,19 +49,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Login successful !!</h2>
         <script>
           setTimeout(function() {
-            // After successful login, redirect to About page
             window.location.href = 'about page.html';
           }, 1500);
         </script>
       </body>
       </html>";
+    
     } else {
       echo "<script>alert('Incorrect password'); window.history.back();</script>";
     }
+
   } else {
     echo "<script>alert('No account found. Please sign up first.'); window.history.back();</script>";
   }
+
+  $stmt->close();
 }
 
-$conn->close();
+$mysqli->close();
 ?>
