@@ -5,19 +5,12 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // respond to preflight quickly
     http_response_code(204);
     exit;
 }
 
-// ... rest of add_notice.php
-
-// backend/notice/add_notice.php
-header('Content-Type: application/json; charset=utf-8');
-ini_set('display_errors', 0);
-error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
-
-require_once __DIR__ . '/../db_connect.php';
+require_once __DIR__ . '/../../db_connect.php';
+require_once __DIR__ . '/../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -25,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Accept JSON or form data
 $input = $_POST;
 if (empty($input)) {
     $json = file_get_contents('php://input');
@@ -35,33 +27,32 @@ if (empty($input)) {
 $title = trim($input['title'] ?? '');
 $content = trim($input['content'] ?? '');
 $posted_by = trim($input['posted_by'] ?? 'anonymous');
-$expires_at = trim($input['expires_at'] ?? null); // optional, format: YYYY-MM-DD HH:MM:SS
 
+// VALIDATION
 if ($title === '' || $content === '') {
     http_response_code(400);
     echo json_encode(['error' => 'title and content are required']);
     exit;
 }
 
-// If expires_at present, basic validation (allow null)
-if ($expires_at === '') $expires_at = null;
-if ($expires_at !== null) {
-    $d = date_create_from_format('Y-m-d H:i:s', $expires_at);
-    if ($d === false) {
-        http_response_code(400);
-        echo json_encode(['error' => 'expires_at must be in format YYYY-MM-DD HH:MM:SS or omitted']);
-        exit;
-    }
-}
+// AUTO SET is_active = 1
+$is_active = 1;
 
-$stmt = $mysqli->prepare("INSERT INTO notices (title, content, posted_by, expires_at) VALUES (?, ?, ?, ?)");
+// INSERT into DB
+$stmt = $mysqli->prepare(
+    "INSERT INTO notices (title, content, posted_by, is_active) 
+     VALUES (?, ?, ?, ?)"
+);
+
 if (!$stmt) {
     http_response_code(500);
     echo json_encode(['error' => 'Prepare failed: ' . $mysqli->error]);
     exit;
 }
-$stmt->bind_param('ssss', $title, $content, $posted_by, $expires_at);
+
+$stmt->bind_param('sssi', $title, $content, $posted_by, $is_active);
 $ok = $stmt->execute();
+
 if (!$ok) {
     http_response_code(500);
     echo json_encode(['error' => 'Insert failed: ' . $stmt->error]);
@@ -72,3 +63,4 @@ $id = $stmt->insert_id;
 $stmt->close();
 
 echo json_encode(['success' => true, 'id' => $id, 'message' => 'Notice added']);
+?>
