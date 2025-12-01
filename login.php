@@ -2,12 +2,12 @@
 include __DIR__ . '/db_connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $email = $_POST['email'] ?? '';
+  $username = $_POST['username'] ?? '';
   $password = $_POST['password'] ?? '';
 
   // Use prepared statement for safety
-  $stmt = $mysqli->prepare("SELECT * FROM users WHERE email = ?");
-  $stmt->bind_param("s", $email);
+  $stmt = $mysqli->prepare("SELECT * FROM users WHERE username= ?");
+  $stmt->bind_param("s", $username);
   $stmt->execute();
 
   $result = $stmt->get_result();
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Login successful !!</h2>
         <script>
           setTimeout(function() {
-            window.location.href = 'about page.html';
+            window.location.href = 'about_page.html';
           }, 1500);
         </script>
       </body>

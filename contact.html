@@ -2,305 +2,806 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Contact Page</title>
+  <title>VCET Orbit - Contact</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --accent-light: #fbbf24;
+      --bg-main: #f8fafc;
+      --card-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-light: #64748b;
+      --border-light: #e2e8f0;
+      --shadow-soft: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    * {
       margin: 0;
       padding: 0;
-      background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1500&q=80') no-repeat center center/cover;
-      color: #222;
-      text-align: center;
-      min-height: 100vh;
-      backdrop-filter: blur(6px);
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.7;
+      color: var(--text-dark);
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      overflow-x: hidden;
+    }
+
+    /* NAVBAR */
     .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-light);
+      z-index: 1000;
+      padding: 1rem 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #004080;
-      padding: 15px 30px;
+      padding: 0 2rem;
     }
-    .navbar .logo {
-      font-size: 20px;
-      font-weight: bold;
-      color: white;
-    }
-    .navbar ul {
-      list-style: none;
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       display: flex;
-      gap: 20px;
+      align-items: center;
+      gap: 0.5rem;
     }
-    .navbar ul li a {
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
       text-decoration: none;
-      color: white;
-      padding: 8px 15px;
-      border-radius: 5px;
-      transition: 0.3s;
-    }
-    .navbar ul li a:hover, .navbar ul li a.active {
-      background: #0066cc;
-    }
-
-    .overlay {
-      background: rgba(255, 255, 255, 0.85);
-      min-height: 100vh;
-      padding: 30px;
+      color: var(--text-light);
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+      font-size: 0.95rem;
     }
 
-    h1 {
-      font-size: 55px;
-      margin-top: 20px;
-      color: #4a148c;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    .nav-link:hover, .nav-link.active {
+      color: var(--primary);
+      background: rgba(37, 99, 235, 0.08);
     }
 
-    h2 {
-      font-size: 30px;
-      margin-bottom: 25px;
-      color: #1a237e;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 2px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: 1px;
     }
 
-    .professors {
-      max-width: 700px;
-      margin: 30px auto;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-      transition: transform 0.3s ease;
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 4px;
+      z-index: 1001;
     }
 
-    .professors:hover {
-      transform: scale(1.02);
+    .hamburger span {
+      width: 24px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 999px;
+      transition: all 0.3s ease;
     }
 
-    .professors p {
-      font-size: 20px;
-      margin: 12px 0;
-      color: #333;
-      line-height: 1.5;
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+
+    /* Main Content */
+    .main-content {
+      margin-top: 100px;
+      padding: 4rem 2rem;
+      min-height: calc(100vh - 200px);
     }
 
-    strong {
-      color: #222;
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
-    .back {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 12px 30px;
-      background: linear-gradient(45deg, #8e24aa, #3949ab);
-      color: white;
-      font-size: 18px;
-      border-radius: 30px;
-      text-decoration: none;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      transition: 0.3s;
-    }
-
-    .back:hover {
-      background: linear-gradient(45deg, #5e35b1, #1e88e5);
-      transform: scale(1.05);
-    }
-
-    footer {
+    .hero-section {
       text-align: center;
-      background: #004080;
-      color: white;
-      padding: 15px 0;
-      margin-top: 40px;
+      padding-bottom: 4rem;
     }
-    footer strong {
-      color: #ffd700;
+
+    .hero-section h1 {
+      font-size: clamp(2.8rem, 6vw, 4.2rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--text-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      max-width: 650px;
+      margin: 0 auto 2.5rem;
+      font-weight: 400;
+      line-height: 1.8;
+    }
+
+    .divider {
+      width: 80px;
+      height: 5px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      margin: 2rem auto;
+      border-radius: 3px;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+    }
+
+    /* Department Cards */
+    .dept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .dept-card {
+      background: var(--card-bg);
+      padding: 2.5rem 2rem;
+      border-radius: 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(37, 99, 235, 0.08);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .dept-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .dept-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(37, 99, 235, 0.15);
+    }
+
+    .dept-card:hover::before {
+      opacity: 1;
+    }
+
+    .dept-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 1.8rem;
+      color: white;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+    }
+
+    .dept-card h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+      text-align: center;
+    }
+
+    .dept-card p {
+      color: var(--text-light);
+      font-size: 1rem;
+      line-height: 1.75;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .dept-count {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary);
+      padding: 0.5rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin: 0 auto;
+    }
+
+    /* MODAL POPUP */
+    .faculty-modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      margin: 5% auto;
+      padding: 0;
+      border-radius: 24px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+      transform: scale(0.7) translateY(-50px);
+      animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       position: relative;
     }
-    footer strong::after {
-      content: "";
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes modalSlideIn {
+      to {
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .modal-header {
+      padding: 2.5rem 2.5rem 2rem;
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 0;
+      background: var(--card-bg);
+      z-index: 10;
+    }
+
+    .modal-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-subtitle {
+      color: var(--text-light);
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .close-modal {
       position: absolute;
-      left: 0;
-      bottom: -2px;
-      width: 0%;
-      height: 2px;
-      background: #ffd700;
-      animation: underlineSlide 2s infinite alternate;
+      right: 2rem;
+      top: 2rem;
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      color: var(--primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-modal:hover {
+      background: var(--primary);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .faculty-list {
+      padding: 2.5rem;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .faculty-subsection {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 1.15rem;
+      margin: 2rem 0 1.5rem;
+      padding: 1rem 0;
+      border-bottom: 2px solid rgba(37, 99, 235, 0.15);
+      text-align: center;
+    }
+
+    .faculty-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border-light);
+      transition: background 0.2s ease;
+    }
+
+    .faculty-item:hover {
+      background: rgba(37, 99, 235, 0.05);
+      border-radius: 12px;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .faculty-item:last-child {
+      border-bottom: none;
+    }
+
+    .faculty-name {
+      font-weight: 500;
+      color: var(--text-dark);
+      flex: 1;
+    }
+
+    .faculty-phone {
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 1.05rem;
+      min-width: 160px;
+      text-align: right;
+      background: rgba(37, 99, 235, 0.08);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      padding: 3rem 2rem 2rem;
+      margin-top: 4rem;
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, var(--accent-light), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .main-content { margin-top: 90px; padding: 2rem 1rem; }
+      .dept-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      
+      .hamburger { display: flex; }
+      .nav-menu {
+        position: fixed;
+        top: 100px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 100px);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 2rem;
+        gap: 1.5rem;
+        transform: translateX(-100%);
+        opacity: 0;
+        visibility: hidden;
+      }
+      .nav-menu.active { transform: translateX(0); opacity: 1; visibility: visible; }
+      .nav-link { font-size: 1.1rem; padding: 1rem 2rem; width: 80%; text-align: center; }
+
+      .modal-content { width: 95%; margin: 10% auto; }
+      .faculty-item { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+      .faculty-phone { text-align: left; min-width: auto; }
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: all 0.6s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    footer {
+      text-align:center;
+      background:#0f172a;
+      color:white;
+      padding:18px 0;
+      margin-top:25px;
+      font-size:0.9rem;
+    }
+    footer strong {
+      color:#facc15;
+      position:relative;
+    }
+    footer strong::after {
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0%;
+      height:2px;
+      background:#facc15;
+      animation:underlineSlide 2s infinite alternate;
     }
     @keyframes underlineSlide {
-      from { width: 0%; }
-      to { width: 100%; }
+      from { width:0%; }
+      to   { width:100%; }
     }
   </style>
 </head>
+
 <body>
-  <!-- Navigation -->
+  <!-- Navbar -->
   <nav class="navbar">
-    <div class="logo">VCET ORBIT</div>
-    <ul>
-      <li><a href="home.html">Home</a></li>
-      <li><a href="about page.html">About</a></li>
-      <li><a href="index.html">Campus</a></li>
-      <li><a href="notice.html">Notice Board</a></li>
-      <li><a href="timetable.html">Time Table</a></li>
-      <li><a href="contact.html" class="active">Contact</a></li>
-      <li><a href="lost_and_found_page.php">Lost And Found</a></li>
-      <!-- <li><a href="#">💉️Blood</a></li> -->
-    </ul>
+    <div class="nav-container">
+      <div class="logo">
+        <i class="fas fa-rocket"></i>
+        VCET Orbit
+      </div>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="home.html" class="nav-link">Home</a></li>
+        <li><a href="about_page.html" class="nav-link">About</a></li>
+        <li><a href="index.html" class="nav-link">Campus</a></li>
+        <li><a href="notice.html" class="nav-link">Notice Board</a></li>
+        <li><a href="timetable.html" class="nav-link">Time Table</a></li>
+        <li><a href="contact.html" class="nav-link active">Contact</a></li>
+        <li><a href="lost_and_found_page.php" class="nav-link">Lost & Found</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
   </nav>
 
-  <div class="overlay">
-    <h1>Contact Page</h1>
-     <div class="intro-text">
-    <strong>Welcome to the contact page</strong> <br/>Here you can find the details 
-    of professors for each department .  Click on <strong>"Find your department"</strong> to 
-    view the faculty members and their contact numbers. Stay connected and reach out to your professors
-     as needed.
-  </div>
-    <h2 id="dept-name"></h2>
-   
-    <div class="professors" id="prof-list"></div>
-    <a href="dept.html" class="back">← Find your Departments</a>
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <section class="hero-section">
+        <h1 class="fade-up">Faculty Directory</h1>
+        <div class="divider"></div>
+        <p class="hero-subtitle fade-up">
+          Welcome to the contact page! Click any department card for a smooth popup with all faculty members and contact numbers.
+        </p>
+      </section>
 
-    <footer>
-      <p>© 2025 VCET ORBIT | 👩‍💻️ Made for <strong>VCETians</strong>, by <strong>VCETians</strong></p>
-    </footer>
+      <section class="dept-grid">
+        <div class="dept-card fade-up" onclick="showFaculty('PRINCIPAL')">
+          <div class="dept-icon"><i class="fas fa-user-tie"></i></div>
+          <h3>Principal's Office</h3>
+          <p>Office of the Principal and leadership team</p>
+          <div class="dept-count">1 Faculty</div>
+        </div>
+
+        <div class="dept-card fade-up" onclick="showFaculty('BS')">
+          <div class="dept-icon"><i class="fas fa-flask"></i></div>
+          <h3>Basic Science (BS)</h3>
+          <p>Mathematics, Physics, Chemistry & Humanities</p>
+          <div class="dept-count">18 Faculty</div>
+        </div>
+
+        <div class="dept-card fade-up" onclick="showFaculty('CS')">
+          <div class="dept-icon"><i class="fas fa-laptop-code"></i></div>
+          <h3>Computer Science (CS)</h3>
+          <p>Computer Science & Engineering department</p>
+          <div class="dept-count">19 Faculty</div>
+        </div>
+
+        <div class="dept-card fade-up" onclick="showFaculty('EC')">
+          <div class="dept-icon"><i class="fas fa-microchip"></i></div>
+          <h3>Electronics & Communication</h3>
+          <p>Electronics & Communication Engineering</p>
+          <div class="dept-count">10 Faculty</div>
+        </div>
+
+        <div class="dept-card fade-up" onclick="showFaculty('AIML')">
+          <div class="dept-icon"><i class="fas fa-brain"></i></div>
+          <h3>AI & Machine Learning</h3>
+          <p>Artificial Intelligence & ML department</p>
+          <div class="dept-count">7 Faculty</div>
+        </div>
+
+        <div class="dept-card fade-up" onclick="showFaculty('CD')">
+          <div class="dept-icon"><i class="fas fa-chart-line"></i></div>
+          <h3>Data Science (CD)</h3>
+          <p>Computer Science with Data Science</p>
+          <div class="dept-count">6 Faculty</div>
+        </div>
+
+        <div class="dept-card fade-up" onclick="showFaculty('MECH')">
+          <div class="dept-icon"><i class="fas fa-cogs"></i></div>
+          <h3>Mechanical Engineering</h3>
+          <p>Mechanical Engineering department</p>
+          <div class="dept-count">7 Faculty</div>
+        </div>
+
+        <div class="dept-card fade-up" onclick="showFaculty('CIVIL')">
+          <div class="dept-icon"><i class="fas fa-hard-hat"></i></div>
+          <h3>Civil Engineering</h3>
+          <p>Civil Engineering department</p>
+          <div class="dept-count">7 Faculty</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Faculty Modal -->
+  <div id="facultyModal" class="faculty-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Loading...</h2>
+        <p class="modal-subtitle" id="modalSubtitle"></p>
+        <button class="close-modal" onclick="closeModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="faculty-list" id="facultyList"></div>
+    </div>
   </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>© 2025 VCET ORBIT | Made for <strong class="highlight">VCETians</strong>, by <strong class="highlight">VCETians</strong></p>
+    </div>
+  </footer>
 
   <script>
-    const data = {
-      PRINCIPAL: {
-        name: "Principal",
-        profs: [
-          "Dr. Mahesh Prasanna.K - 9945016992"
-          
-        ]
-      },
-      BS: {
-        name: " 🧪Basic Science (BS)",
-        profs: [
-          "<strong>--- Mathematics ---",
-          "Dr. M Ramananda Kamath(HOD) - 9740081411",
-          "Prof. Ravishankar N K – 9876543211",
-          "Prof. Shreesharanya U R - 8971965038",
-          "Prof. Madhavi R Pai - 9481264777",
-          "Prof. Reshma - 7019261834",
-          "Prof. Soujanya M M - 9108594277",
-          "--- Physics ---",
-          "Dr. Raveesha P M - 9008416659",
-          "Dr. Shreesha Bhat – 9876543211",
-          "Prof. Thejaswini L P - 9480015684",
-          "--- Chemistry ---",
-          "Dr. Shwethambika P - 9449215221",
-          "Dr. Chetan P D – 9876543211",
-          "Prof. Annapoorna B - ",
-          "--- Humanities ---",
-          "Prof. Vandana Shankar - 9999999",
-          "Prof. Latha Mohan Shetty – 9876543211",
-          "Prof.Samyak– 9876543211",
-          "--- Physical Education ---",
-          "Mr. Balachandra Gowda B - 9008038826</strong>"
-        ]
-      },
-      CS: {
-        name: "💻Computer Science (CS)",
-        profs: [
-          "<strong>Dr. Pradeep Kumar K G (HOD)– 9876543210",
-          
-          "Dr. Krishna Mohan A J – 9876543211",
-          "Prof. Pramod Kumar P M - 9964584947",
-          "Prof.Shrinidhi A-9035414857",
-          "Prof. Radhika Shetty D S - 9480655804",
-          "Prof. Mohan K - 9743704860",
-          "Prof.Mohan A  R-9480402921",
-          "Prof.Dinesh prasanna-9448549963",
-          "Prof.Guruprasanna J K-7411568765",
-          "Prof.Savitha M-9008419905",
-          "Dr.Jeevitha B K-9880185386",
-          "Prof.Thapaswini P S-9535622841",
-          "Prof.Rashmi P C-9739872217",
-          "Prof.Manasa P-9035017185",
-          "Prof.Bharathi K-9900793678",
-          "Dr.Uma Pare-9980985310",
-          "Prof.Linju A C-9746217467",
-          "Prof.Shreeja M-8546813768",
-          "Prof.Swapna Laxmi K-9686626149",
-          "Prof.Raksha-9526475848 </strong>"
-         
-        ]
-      },
-      EC: {
-        name: "📡Electronics & Communication (EC)",
-        profs: [
-          "<strong>Dr. Shrikanth Rao S K (HOD) – 9876543212",
-          "Prof. Rajani -9448311451",
-          "Prof. Shivaprasad-7760492838",
-          "Prof.Akshay-8762210900",
-          "Prof.Nithin-9886617758",
-          "Prof.Sowmya Anil-9448770222",
-          "Prof.Nirupama-8762317268",
-          "Prof.Mahabaleshwara Bhat-994958320",
-          "Prof.Prabha G-9880315351",
-          "Prof. Nisha G R-8971720836</strong>"
-        ]
-      },
-      AIML: {
-        name: "🤖Artificial Intelligence & Machine Learning (AIML)",
-        profs: [
-          
-          "<strong>Prof.Abhishek Kumar K(HOD)-9480572899",
-          "Prof.C Ajay Shastry – 9876501234",
-          "Prof. Naveena.C – 9876543222",
-          "Prof.Vaishnavi-8945647008",
-          "Dr.Venkatesh Y C-9946772217",
-          "Prof.Nidhishree-9481613615",
-          "Prof. Akshaya D Shetty – 9876543233</strong>"
-        ]
-      },
-      CD: {
-        name: "📊Computer Science with Data Science (CD)",
-        profs: [
-          "<strong>Dr.Roopa G.K (HOD)-9980540800",
-          "Dr.Sai Venkataramana  Prasad G S  – 9876504567",
-          "Prof. Akhila M L – 9876543223",
-          "Prof.Sapna K M -8722662879",
-          "Prof.Nagaraja-9448725741",
-          "Prof. Rohith– 9876543255</strong>"
-        ]
-      },
-      MECH: {
-        name: "⚙️Mechanical Engineering (MECH)",
-        profs: [
-          "<strong>Dr.Manujesh B J(HOD)-974172",
-          "Prof. Sateesha  – 9876507890",
-          "Prof. Sudarshan M L – 9876543266",
-          "Prof.Ajith-9164561856",
-          "Prof.Harish-8679453225",
-          "Prof.Naveena Krishna-9946340011",
-          "Prof. Raghavendra – 9876543277</strong>"
-        ]
-      },
-      CIVIL: {
-        name: "🏗️Civil Engineering (CIVIL)",
-        profs: [
-          "<strong>Prof.Prashanth(HOD)-9480572960",
-          "Dr. Ajith Hebbar H – 9448582073",
-          "Prof. Subrahmanya – 9876543288",
-          "Prof. Shishira Krishna – 9876543299",
-          "Prof.Smitha-9743292760",
-          "Dr.Jayakrishna Bhat-8136891290",
-          "Dr.Shankara Giri-9844707576</strong>"
-        ]
+  // FULL FACULTY DATA (Updated with your content)
+  const facultyData = {
+    PRINCIPAL: {
+      title: " Principal",
+      subtitle: "Administrative Leadership",
+      profs: [
+        "Dr. Mahesh Prasanna.K - 9945016992"
+      ]
+    },
+
+    BS: {
+      title: " Basic Science (BS)",
+      subtitle: "Mathematics, Physics, Chemistry & Humanities",
+      profs: [
+        "--- Mathematics ---",
+        "Dr. M Ramananda Kamath (HOD) - 9740081411",
+        "Prof. Ravishankar N K - 9876543211",
+        "Prof. Shreesharanya U R - 8971965038",
+        "Prof. Madhavi R Pai - 9481264777",
+        "Prof. Reshma - 7019261834",
+        "Prof. Soujanya M M - 9108594277",
+
+        "--- Physics ---",
+        "Dr. Raveesha P M - 9008416659",
+        "Dr. Shreesha Bhat - 9876543211",
+        "Prof. Thejaswini L P - 9480015684",
+
+        "--- Chemistry ---",
+        "Dr. Shwethambika P - 9449215221",
+        "Dr. Chetan P D - 9876543211",
+        "Prof. Annapoorna B - Contact Department",
+
+        "--- Humanities ---",
+        "Prof. Vandana Shankar - 9999999",
+        "Prof. Latha Mohan Shetty - 9876543211",
+        "Prof. Samyak - 9876543211",
+
+        "--- Physical Education ---",
+        "Mr. Balachandra Gowda B - 9008038826"
+      ]
+    },
+
+    CS: {
+      title: " Computer Science (CS)",
+      subtitle: "Computer Science & Engineering",
+      profs: [
+        "Dr. Pradeep Kumar K G (HOD) - 9876543210",
+        "Dr. Krishna Mohan A J - 9876543211",
+        "Prof. Pramod Kumar P M - 9964584947",
+        "Prof. Shrinidhi A - 9035414857",
+        "Prof. Radhika Shetty D S - 9480655804",
+        "Prof. Mohan K - 9743704860",
+        "Prof. Mohan A R - 9480402921",
+        "Prof. Dinesh Prasanna - 9448549963",
+        "Prof. Guruprasanna J K - 7411568765",
+        "Prof. Savitha M - 9008419905",
+        "Dr. Jeevitha B K - 9880185386",
+        "Prof. Thapaswini P S - 9535622841",
+        "Prof. Rashmi P C - 9739872217",
+        "Prof. Manasa P - 9035017185",
+        "Prof. Bharathi K - 9900793678",
+        "Dr. Uma Pare - 9980985310",
+        "Prof. Linju A C - 9746217467",
+        "Prof. Shreeja M - 8546813768",
+        "Prof. Swapna Laxmi K - 9686626149",
+        "Prof. Raksha - 9526475848"
+      ]
+    },
+
+    EC: {
+      title: " Electronics & Communication (EC)",
+      subtitle: "Electronics & Communication Engineering",
+      profs: [
+        "Dr. Shrikanth Rao S K (HOD) - 9876543212",
+        "Prof. Rajani - 9448311451",
+        "Prof. Shivaprasad - 7760492838",
+        "Prof. Akshay - 8762210900",
+        "Prof. Nithin - 9886617758",
+        "Prof. Sowmya Anil - 9448770222",
+        "Prof. Nirupama - 8762317268",
+        "Prof. Mahabaleshwara Bhat - 994958320",
+        "Prof. Prabha G - 9880315351",
+        "Prof. Nisha G R - 8971720836"
+      ]
+    },
+
+    AIML: {
+      title: " Artificial Intelligence & Machine Learning (AIML)",
+      subtitle: "AI & Machine Learning Department",
+      profs: [
+        "Prof. Abhishek Kumar K (HOD) - 9480572899",
+        "Prof. C Ajay Shastry - 9876501234",
+        "Prof. Naveena C - 9876543222",
+        "Prof. Vaishnavi - 8945647008",
+        "Dr. Venkatesh Y C - 9946772217",
+        "Prof. Nidhishree - 9481613615",
+        "Prof. Akshaya D Shetty - 9876543233"
+      ]
+    },
+
+    CD: {
+      title: " Computer Science with Data Science (CD)",
+      subtitle: "Data Science Department",
+      profs: [
+        "Dr. Roopa G K (HOD) - 9980540800",
+        "Dr. Sai Venkataramana Prasad G S - 9876504567",
+        "Prof. Akhila M L - 9876543223",
+        "Prof. Sapna K M - 8722662879",
+        "Prof. Nagaraja - 9448725741",
+        "Prof. Rohith - 9876543255"
+      ]
+    },
+
+    MECH: {
+      title: " Mechanical Engineering (MECH)",
+      subtitle: "Mechanical Engineering Department",
+      profs: [
+        "Dr. Manujesh B J (HOD) - 9741720000",
+        "Prof. Sateesha - 9876507890",
+        "Prof. Sudarshan M L - 9876543266",
+        "Prof. Ajith - 9164561856",
+        "Prof. Harish - 8679453225",
+        "Prof. Naveena Krishna - 9946340011",
+        "Prof. Raghavendra - 9876543277"
+      ]
+    },
+
+    CIVIL: {
+      title: " Civil Engineering (CIVIL)",
+      subtitle: "Civil Engineering Department",
+      profs: [
+        "Prof. Prashanth (HOD) - 9480572960",
+        "Dr. Ajith Hebbar H - 9448582073",
+        "Prof. Subrahmanya - 9876543288",
+        "Prof. Shishira Krishna - 9876543299",
+        "Prof. Smitha - 9743292760",
+        "Dr. Jayakrishna Bhat - 8136891290",
+        "Dr. Shankara Giri - 9844707576"
+      ]
+    }
+  };
+
+
+      // Add other departments (EC, AIML, CD, MECH, CIVIL) here following same pattern
+    
+
+    // Show Faculty Modal
+    function showFaculty(dept) {
+      if (facultyData[dept]) {
+        document.getElementById('modalTitle').textContent = facultyData[dept].title;
+        document.getElementById('modalSubtitle').textContent = facultyData[dept].subtitle;
+        
+        const facultyList = document.getElementById('facultyList');
+        facultyList.innerHTML = facultyData[dept].profs.map(prof => {
+          if (prof.includes('---')) {
+            return `<div class="faculty-subsection">${prof}</div>`;
+          }
+          const [name, phone] = prof.split(' - ');
+          return `
+            <div class="faculty-item">
+              <span class="faculty-name">${name}</span>
+              <span class="faculty-phone">${phone}</span>
+            </div>
+          `;
+        }).join('');
+        
+        document.getElementById('facultyModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
       }
-    };
+    }
 
-    const params = new URLSearchParams(window.location.search);
-    const dept = params.get("dept");
+    // Close Modal
+    function closeModal() {
+      document.getElementById('facultyModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
 
-    if (dept && data[dept]) {
-      document.getElementById("dept-name").textContent = data[dept].name;
-      const list = document.getElementById("prof-list");
-      list.innerHTML = data[dept].profs.map(p => `<p>${p}</p>`).join("");
-    } 
+    // Navbar functionality
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+      });
+    });
+
+    // Close modal on outside click
+    document.getElementById('facultyModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>

@@ -4,16 +4,16 @@ include __DIR__ . '/db_connect.php';  // loads $mysqli
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $email = trim($_POST['email'] ?? "");
+    $username = trim($_POST['username'] ?? "");
     $password = trim($_POST['password'] ?? "");
 
-    if ($email === "" || $password === "") {
+    if ($username === "" || $password === "") {
         die("<script>alert('All fields are required.'); window.history.back();</script>");
     }
 
     // Insert only email + password
-    $stmt = $mysqli->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
-    $stmt->bind_param("ss", $email, $password);
+    $stmt = $mysqli->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+    $stmt->bind_param("ss", $username, $password);
 
     if ($stmt->execute()) {
         echo "<script>alert('Signup successful!'); window.location.href='login.html';</script>";

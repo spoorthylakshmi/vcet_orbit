@@ -1,249 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VCET Orbit | Campus Helper</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VCET Orbit | Campus Helper</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-<style>
-/* -------- GLOBAL -------- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --accent-light: #fbbf24;
+    }
 
-body {
-  font-family: "Poppins", sans-serif;
-  background: url("vcetbg.jpg") center top/cover no-repeat;
-  height: 100vh;
-  color: #fff;
-  overflow-x: hidden;
-  position: relative;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* Overlay */
-body::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.55));
-  z-index: 0;
-}
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url("vcetbg.jpg") center top/cover no-repeat;
+      min-height: 100vh;
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-/* -------- LOGO -------- */
-img[alt="VCET Logo"] {
-  position: fixed;
-  top: 15px;
-  left: 25px;
-  width: 170px;
-  z-index: 1002;
-  transition: 0.3s;
-}
-img[alt="VCET Logo"]:hover { transform: scale(1.05); }
+    /* dark overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+      z-index: -1;
+    }
 
-/* -------- MARQUEE -------- */
-marquee {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: #ffd700;
-  font-weight: 600;
-  font-size: 15px;
-  padding: 10px 20px;
-  z-index: 100;
-}
+    /* TOP BAR: logo + marquee + buttons */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+    }
 
-/* -------- LOGIN BUTTON -------- */
-.login-btn {
-  position: fixed;
-  top: 48px;
-  right: 120px;
-  background: #ffd700;
-  color: #000;
-  padding: 8px 0;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  transition: 0.3s;
-  z-index: 1001;
-  width: 120px;
-  text-align: center;
-}
-.login-btn:hover {
-  background: #e6c200;
-  color: #fff;
-}
+    .top-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.6);
+      box-shadow: 0 8px 24px rgba(15,23,42,0.6);
+      white-space: nowrap;
+    }
 
-/* -------- SIGNUP BUTTON (replaces menu) -------- */
-.signup-btn {
-  position: fixed;
-  top: 48px;
-  right: 20px;
-  background: #ffd700;
-  color: #000;
-  padding: 8px 0;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  transition: 0.3s;
-  z-index: 1001;
-  width: 120px;
-  text-align: center;
-}
-.signup-btn:hover { background: #e6c200; color: #fff; }
+    .top-logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 8px 20px rgba(37,99,235,0.5);
+    }
 
-/* Responsive: stack header buttons on small screens */
-@media (max-width:700px) {
-  .login-btn { right: 20px; top: 48px; }
-  .signup-btn { right: 20px; top: 100px; }
-  .login-btn, .signup-btn { width: calc(100% - 40px); left: 20px; right: 20px; }
-}
+    .top-logo span {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
 
-/* -------- NAVBAR -------- */
-.navbar {
-  position: fixed;
-  top: 110px;
-  right: 20px;
-  background: rgba(34,34,34,0.9);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-  padding: 18px 25px;
-  display: none;
-  z-index: 1000;
-}
-.navbar.active { display: block; }
+    .top-marquee {
+      flex: 1;
+      min-width: 0;
+      background: rgba(255,255,255,0.18);
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 6px 14px;
+      overflow: hidden;
+      position: relative;
+    }
 
-.navbar ul { list-style: none; }
-.navbar ul li { margin: 10px 0; }
-.navbar ul li a {
-  color: #ddd;
-  text-decoration: none;
-  padding: 5px 8px;
-  display: block;
-  border-radius: 6px;
-  transition: 0.3s;
-}
-.navbar ul li a:hover {
-  color: #ffd700;
-  background: rgba(255,255,255,0.1);
-}
+    .top-marquee span {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 18s linear infinite;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #ffd700;
+    }
 
-/* -------- HERO TEXT -------- */
-.hero-text {
-  position: absolute;
-  top: 55%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  max-width: 900px;
-  z-index: 1;
-}
-.hero-text h1,
-.hero-text p {
-  opacity: 0;
-  transform: translateY(40px);
-  animation: fadeSlideUp 1s ease forwards;
-}
-.hero-text h1 {
-  font-size: 48px;
-  font-weight: 700;
-  color: #ffd700;
-  margin-bottom: 15px;
-  animation-delay: 0.3s;
-}
-.hero-text p {
-  font-size: 18px;
-  color: #f5f5f5;
-  animation-delay: 0.6s;
-}
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
 
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-/* -------- FOOTER -------- */
-footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background: #111;
-  color: #ffd700;
-  text-align: center;
-  padding: 15px 0;
-  border-top: 1px solid #333;
-  font-size: 14px;
-  z-index: 100;
-}
+    .btn-small {
+      padding: 6px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid rgba(37,99,235,0.6);
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff;
+      box-shadow: 0 6px 18px rgba(37,99,235,0.6);
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
 
-footer strong {
-  color: #ffd700;
-  position: relative;
-}
-footer strong::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background: #ffd700;
-  animation: underlineSlide 2s infinite alternate;
-}
+    .btn-small:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(37,99,235,0.8);
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    }
 
-@keyframes underlineSlide {
-  from { width: 0%; }
-  to { width: 100%; }
-}
-</style>
+    /* HERO */
+    .hero-text {
+      position: relative;
+      margin-top: 140px;
+      padding: 0 24px 40px;
+      text-align: center;
+    }
+
+    .hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.6rem, 6vw, 3.8rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffd700 0%, #ffffff 50%, #ffd700 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      text-shadow: 0 4px 20px rgba(255,215,0,0.35);
+    }
+
+    .hero-text p {
+      font-size: clamp(0.95rem, 3vw, 1.05rem);
+      color: rgba(255,255,255,0.96);
+      line-height: 1.8;
+      backdrop-filter: blur(10px);
+    }
+
+    /* FOOTER */
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      padding: 8px 12px;
+      font-size: 0.75rem;
+      color: rgba(248,250,252,0.85);
+      background: linear-gradient(180deg, transparent, rgba(15,23,42,0.85));
+    }
+
+    footer strong {
+      color: #facc15;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .top-bar {
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .top-logo {
+        padding: 6px 10px;
+      }
+
+      .top-logo img {
+        width: 34px;
+        height: 34px;
+      }
+
+      .top-logo span {
+        font-size: 0.8rem;
+      }
+
+      .top-marquee {
+        order: 2;
+        width: 100%;
+        margin-left: 42px;
+      }
+
+      .top-actions {
+        order: 3;
+        margin-left: auto;
+      }
+
+      .btn-small {
+        padding: 5px 10px;
+        font-size: 0.78rem;
+      }
+
+      .hero-text {
+        margin-top: 180px;
+        padding-inline: 16px;
+      }
+
+      footer {
+        font-size: 0.7rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .top-marquee {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .top-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      .hero-text {
+        margin-top: 190px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <!-- Logo + name -->
+    <div class="top-logo">
+      <img src="logo.jpg.png" alt="VCET Logo">
+      <span>VCET Orbit</span>
+    </div>
 
-<!-- Logo -->
-<img src="logo.jpg.png" alt="VCET Logo">
+    <!-- Marquee text -->
+    <div class="top-marquee">
+      <span>VCET ORBIT | EMPOWERING STUDENTS, ENRICHING CAMPUS LIFE | Stay tuned for latest updates, events, and essential campus alerts daily!</span>
+    </div>
 
-<!-- Marquee -->
-<marquee><b>VCET ORBIT | 🎓 EMPOWERING STUDENTS, ENRICHING CAMPUS LIFE</b></marquee>
+    <!-- Login / Signup -->
+    <div class="top-actions">
+      <a href="login.html" class="btn-small">Login</a>
+      <a href="signup.html" class="btn-small">Signup</a>
+    </div>
+  </div>
 
-<!-- Login Button -->
-<a href="login.html" class="login-btn">Login</a>
+  <!-- HERO -->
+  <section class="hero-text">
+    <div class="hero-inner">
+      <h1>Welcome to VCET Orbit</h1>
+      <p>
+        Connecting students, streamlining campus life, and empowering every VCETian.<br>
+        Stay updated with notices, events and essentials – all in one place.
+      </p>
+    </div>
+  </section>
 
-<!-- Sign Up Button (replaces menu) -->
-<a href="signup.html" class="signup-btn">Sign Up</a>
-
-<!-- NAVBAR -->
-<div class="navbar" id="menu">
-  <ul>
-    <li><a href="home.html">Home</a></li>
-    <li><a href="about page.html">About</a></li>
-    <li><a href="index.html">Campus</a></li>
-    <li><a href="notice.html">Notice Board</a></li>
-    <li><a href="timetable.html">Time Table</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="lost and found page.html">Lost & Found</a></li>
-  </ul>
-</div>
-
-<!-- HERO SECTION -->
-<div class="hero-text">
-  <h1>Welcome to VCET Orbit</h1>
-  <p>Connecting Students, Streamlining Campus Life, and Empowering Every VCETian.<br>
-     Stay updated with notices, events, and essentials — all in one place.</p>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <p>© 2025 VCET ORBIT | 👩‍💻️ Made for <strong>VCETians</strong>, by <strong>VCETians</strong></p>
-</footer>
-
-<!-- No menu JS required since navigation is a visible link on larger screens -->
-
+  <!-- FOOTER -->
+  <footer>
+    © 2025 VCET ORBIT | Made for <strong>VCETians</strong>, by <strong>VCETians</strong>
+  </footer>
 </body>
 </html>

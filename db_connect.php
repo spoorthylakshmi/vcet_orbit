@@ -1,3 +1,4 @@
+
 <?php
 $host = "localhost";
 $user = "root";
@@ -12,3 +13,4 @@ if ($mysqli->connect_error) {
 
 $mysqli->set_charset("utf8mb4");
 ?>
+

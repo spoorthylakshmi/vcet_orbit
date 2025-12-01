@@ -5,218 +5,431 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Campus Helper - Notice Board</title>
 
+  <!-- Same font & icons as other pages -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color:#f3f0f9;
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --accent-light: #fbbf24;
+      --bg-main: #f3f6fb;
+      --card-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-light: #64748b;
+      --border-light: #e2e8f0;
+      --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
     }
 
-    /* Navbar */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #f9fbff 0%, #eef2ff 40%, #e0f2fe 100%);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      padding-top: 90px; /* space for fixed navbar */
+    }
+
+    /* NAVBAR (same look as about/timetable) */
     .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border-light);
+      z-index: 1000;
+      padding: 0.9rem 0;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #004080;
-      padding: 15px 30px;
-    }
-    .navbar .logo {
-      font-size: 20px;
-      font-weight: bold;
-      color: white;
-    }
-    .navbar ul {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-    }
-    .navbar ul li a {
-      text-decoration: none;
-      color: white;
-      padding: 8px 15px;
-      border-radius: 5px;
-      transition: 0.3s;
-    }
-    .navbar ul li a:hover, .navbar ul li a.active {
-      background: #0066cc;
+      padding: 0 2rem;
     }
 
-    /* Notice Board */
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo i {
+      font-size: 1.3rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-light);
+      font-weight: 500;
+      padding: 0.45rem 1.2rem;
+      border-radius: 999px;
+      transition: all 0.25s ease;
+      font-size: 0.95rem;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+      background: rgba(37, 99, 235, 0.08);
+    }
+
+    .nav-link.active {
+      color: #ffffff;
+      background: var(--primary);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 4px;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 999px;
+      transition: 0.3s;
+    }
+
+    /* PAGE LAYOUT */
+    .page-wrapper {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 1.5rem 3rem;
+    }
+
     .notice-board {
-      padding: 40px;
       text-align: center;
+      padding: 2.5rem 1rem 2rem;
     }
+
     .notice-board h1 {
-      color: #004080;
+      font-size: clamp(2.2rem, 3.5vw, 2.7rem);
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
     }
+
+    .section-divider {
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      margin: 0.7rem auto 1.4rem;
+      border-radius: 999px;
+    }
+
+    .notice-board p {
+      max-width: 700px;
+      margin: 0.3rem auto 0;
+      color: var(--text-light);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
     .notices {
+      margin-top: 2rem;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      padding: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
     }
 
     .notice-card {
-      background: #f5fbf7;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
+      background: var(--card-bg);
+      padding: 1.4rem 1.4rem 1.1rem;
+      border-radius: 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.25);
       text-align: left;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+      position: relative;
+      overflow: hidden;
     }
+
+    .notice-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
     .notice-card:hover {
-      transform: scale(1.03);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.15);
+      border-color: rgba(37, 99, 235, 0.35);
     }
+
+    .notice-card:hover::before {
+      opacity: 1;
+    }
+
     .notice-card h2 {
-      margin: 0 0 10px;
-      color: #222;
+      margin: 0 0 0.5rem;
+      color: var(--text-dark);
+      font-size: 1.1rem;
+      font-weight: 600;
     }
+
     .notice-card p {
-      font-size: 15px;
-      color: #555;
+      font-size: 0.93rem;
+      color: var(--text-light);
+      line-height: 1.6;
     }
+
     .notice-card .date {
       display: block;
-      margin-top: 10px;
-      font-size: 13px;
-      color: #888;
+      margin-top: 0.7rem;
+      font-size: 0.8rem;
+      color: #9ca3af;
     }
 
-    /* Delete Button */
     .delete-btn {
-      background: #d9534f;
+      background: #ef4444;
       color: white;
       border: none;
-      padding: 6px 12px;
-      margin-top: 10px;
-      border-radius: 5px;
+      padding: 0.4rem 0.9rem;
+      margin-top: 0.7rem;
+      border-radius: 999px;
       cursor: pointer;
-      font-size: 14px;
-    }
-    .delete-btn:hover {
-      background: #c9302c;
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+      box-shadow: 0 8px 18px rgba(239, 68, 68, 0.3);
     }
 
-    /* Footer */
+    .delete-btn:hover {
+      background: #dc2626;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(239, 68, 68, 0.45);
+    }
+
+    .no-file {
+      text-align: center;
+      color: #ef4444;
+      font-weight: 500;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+
     footer {
       text-align: center;
-      background: #004080;
+      background: #0f172a;
       color: white;
-      padding: 15px 0;
-      margin-top: 40px;
+      padding: 18px 0;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    footer strong {
+      color: #facc15;
+      position: relative;
+    }
+
+    footer strong::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0%;
+      height: 2px;
+      background: #facc15;
+      animation: underlineSlide 2s infinite alternate;
+    }
+
+    @keyframes underlineSlide {
+      from { width: 0%; }
+      to   { width: 100%; }
+    }
+
+    /* Responsive navbar */
+    @media (max-width: 768px) {
+      body { padding-top: 80px; }
+
+      .nav-container { padding: 0 1rem; }
+
+      .nav-menu {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: #ffffff;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 1.8rem;
+        gap: 1rem;
+        transition: 0.3s;
+      }
+
+      .nav-menu.active { right: 0; }
+
+      .hamburger { display: flex; }
     }
   </style>
-
 </head>
 <body>
 
   <!-- Navigation -->
   <nav class="navbar">
-    <div class="logo">VCET ORBIT</div>
-    <ul>
-      <li><a href="home.html">Home</a></li>
-      <li><a href="about page.html">About</a></li>
-      <li><a href="index.html">Campus</a></li>
-      <li><a href="notice.html" class="active">Notice Board</a></li>
-      <li><a href="timetable.html">Time Table</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="lost_and_found_page.php">Lost And Found</a></li>
-    </ul>
+    <div class="nav-container">
+      <div class="logo">
+        <i class="fas fa-rocket"></i>
+        VCET Orbit
+      </div>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="home.html" class="nav-link">Home</a></li>
+        <li><a href="about_page.html" class="nav-link">About</a></li>
+        <li><a href="index.html" class="nav-link">Campus</a></li>
+        <li><a href="notice.html" class="nav-link active">Notice Board</a></li>
+        <li><a href="timetable.html" class="nav-link">Time Table</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+        <li><a href="lost_and_found_page.php" class="nav-link">Lost And Found</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </nav>
 
-  <!-- Notice Board -->
-  <section class="notice-board">
-    <h1>Notice Board</h1>
-    <p>Stay updated with the latest VCET news & events.</p>
+  <!-- Page Content -->
+  <div class="page-wrapper">
+    <section class="notice-board">
+      <h1>Notice Board</h1>
+      <div class="section-divider"></div>
+      <p>Stay updated with the latest VCET news &amp; events.</p>
 
-    <div class="notices" id="noticeContainer">
-      <p>Loading notices...</p>
-    </div>
-  </section>
+      <div class="notices" id="noticeContainer">
+        <p>Loading notices...</p>
+      </div>
+    </section>
+
+    <p id="errorMsg" class="no-file"></p>
+  </div>
 
   <!-- Footer -->
   <footer>
-    <p>© 2025 VCET ORBIT | Made for VCETians, by VCETians</p>
+    <p>© 2025 VCET ORBIT | Made for <strong>VCETians</strong>, by <strong>VCETians</strong></p>
   </footer>
 
-
-  <!-- JavaScript -->
+  <!-- JavaScript (unchanged logic) -->
   <script>
+    // Navbar mobile toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    if (hamburger && navMenu) {
+      hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+      });
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          navMenu.classList.remove('active');
+        });
+      });
+    }
+
     async function loadNotices() {
-        try {
-            const res = await fetch("/miniproject/backend/notice/get_notices.php");
-            const data = await res.json();
-            const container = document.getElementById("noticeContainer");
+      try {
+        const res = await fetch("/miniproject/backend/notice/get_notices.php");
+        const data = await res.json();
+        const container = document.getElementById("noticeContainer");
 
-            const notices = data.notices;
+        const notices = data.notices;
 
-            if (!notices || notices.length === 0) {
-                container.innerHTML = "<p>No notices available.</p>";
-                return;
-            }
-
-            container.innerHTML = ""; // clear old
-
-            notices.forEach(n => {
-                const card = document.createElement("div");
-                card.className = "notice-card";
-
-                card.innerHTML = `
-                    <h2>${n.title}</h2>
-                    <p>${n.content}</p>
-                    <span class="date">Posted on ${n.created_at}</span>
-                    <button class="delete-btn" onclick="deleteNotice(${n.id})">Delete</button>
-                `;
-
-                container.appendChild(card);
-            });
-
-        } catch (err) {
-            document.getElementById("noticeContainer").innerHTML =
-                "<p style='color:red;'>Failed to load notices.</p>";
-            console.error(err);
+        if (!notices || notices.length === 0) {
+          container.innerHTML = "<p>No notices available.</p>";
+          return;
         }
+
+        container.innerHTML = "";
+
+        notices.forEach(n => {
+          const card = document.createElement("div");
+          card.className = "notice-card";
+
+          card.innerHTML = `
+            <h2>${n.title}</h2>
+            <p>${n.content}</p>
+            <span class="date">Posted on ${n.created_at}</span>
+            <button class="delete-btn" onclick="deleteNotice(${n.id})">Delete</button>
+          `;
+
+          container.appendChild(card);
+        });
+      } catch (err) {
+        document.getElementById("noticeContainer").innerHTML =
+          "<p style='color:red;'>Failed to load notices.</p>";
+        console.error(err);
+      }
     }
 
-    // Delete Notice (Admin Only)
     async function deleteNotice(id) {
-        const adminKey = prompt("Enter admin password to delete:");
+      const adminKey = prompt("Enter admin password to delete:");
 
-        if (!adminKey) {
-            alert("Deletion cancelled.");
-            return;
+      if (!adminKey) {
+        alert("Deletion cancelled.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("id", id);
+      formData.append("admin_key", adminKey);
+
+      try {
+        const res = await fetch("/miniproject/backend/notice/delete_notice.php", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          alert("Notice deleted successfully.");
+          loadNotices();
+        } else {
+          alert("Delete failed: " + data.error);
         }
-
-        const formData = new FormData();
-        formData.append("id", id);
-        formData.append("admin_key", adminKey);
-
-        try {
-            const res = await fetch("/miniproject/backend/notice/delete_notice.php", {
-                method: "POST",
-                body: formData
-            });
-
-            const data = await res.json();
-
-            if (data.success) {
-                alert("Notice deleted successfully.");
-                loadNotices();
-            } else {
-                alert("Delete failed: " + data.error);
-            }
-
-        } catch (err) {
-            alert("Error deleting notice.");
-            console.error(err);
-        }
+      } catch (err) {
+        alert("Error deleting notice.");
+        console.error(err);
+      }
     }
 
-    // Auto-load notices
     loadNotices();
     setInterval(loadNotices, 10000);
   </script>
-
 </body>
 </html>
